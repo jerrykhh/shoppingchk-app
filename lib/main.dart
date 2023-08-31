@@ -13,17 +13,18 @@ import 'package:shoppingchk/pages/home/index.dart';
 
 void main() => runApp(const ShoppingChkApp());
 
-final GoRouter _router = GoRouter(initialLocation: "/home", routes: <RouteBase>[
+final GoRouter _router = GoRouter(initialLocation: "/", routes: <RouteBase>[
   GoRoute(
-    path: "/home",
-    name: "ShoppingChk",
-    builder: (BuildContext context, state) => const HomePage(),
-  ),
-  GoRoute(
-      path: "/shop/:id",
-      name: "Shop Chking",
-      builder: (BuildContext context, state) =>
-          ShopDetailPage(id: state.pathParameters['id']!))
+      path: "/",
+      name: "ShoppingChk",
+      builder: (BuildContext context, state) => const HomePage(),
+      routes: [
+        GoRoute(
+            path: "shop/:id",
+            name: "Shop Chking",
+            builder: (BuildContext context, state) =>
+                ShopDetailPage(id: state.pathParameters['id']!))
+      ]),
 ]);
 
 class ShoppingChkApp extends StatefulWidget {
@@ -78,6 +79,10 @@ class _ShoppingChkAppState extends State<ShoppingChkApp> {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         primaryColor: Colors.black,
+        textTheme: const TextTheme(
+            titleMedium: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),
+            titleSmall: TextStyle(color: Colors.black45)),
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

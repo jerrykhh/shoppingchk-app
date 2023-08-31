@@ -77,7 +77,7 @@ class Comment extends amplify_core.Model {
     return _rate;
   }
 
-  User? get User {
+  User? get Customer {
     return _User;
   }
 
@@ -199,7 +199,7 @@ class Comment extends amplify_core.Model {
         userId: userId ?? this.userId,
         description: description ?? this.description,
         rate: rate ?? this.rate,
-        User: User ?? this.User,
+        User: User ?? Customer,
         shopID: shopID ?? this.shopID,
         commentUserId: commentUserId ?? this.commentUserId);
   }
@@ -216,7 +216,7 @@ class Comment extends amplify_core.Model {
         userId: userId == null ? this.userId : userId.value,
         description: description == null ? this.description : description.value,
         rate: rate == null ? this.rate : rate.value,
-        User: User == null ? this.User : User.value,
+        User: User == null ? Customer : User.value,
         shopID: shopID == null ? this.shopID : shopID.value,
         commentUserId:
             commentUserId == null ? this.commentUserId : commentUserId.value);

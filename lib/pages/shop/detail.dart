@@ -16,17 +16,18 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
   @override
   void initState() {
     super.initState();
-    _shop = queryShop(widget.id);
+    // _shop = queryShop(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: FutureBuilder(
-            future: _shop,
-            builder: (BuildContext context, AsyncSnapshot<Shop> snapshot) {
-              final item = snapshot.data;
-              return Text(item!.name);
-            }));
+    // return Scaffold(
+    //     body: FutureBuilder(
+    //         future: _shop,
+    //         builder: (BuildContext context, AsyncSnapshot<Shop> snapshot) {
+    //           final item = snapshot.data;
+    //           return Text(item!.name);
+    //         }));
+    return Text("test");
   }
 }

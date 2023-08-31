@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "shoppingchk",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}

@@ -1,0 +1,33 @@
+enum CommentRate {
+  GOOD
+  NEUTRAL
+  NEGATIVE
+}
+
+type Comment @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userId: String!
+  description: String!
+  rate: CommentRate
+  User: User @hasOne
+  shopID: ID! @index(name: "byShop")
+}
+
+type Shop @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  icon: String
+  description: String
+  name: String!
+  address: String!
+  available: Boolean!
+  longitude: Float
+  latitude: Float
+  geohash: String
+  Comments: [Comment] @hasMany(indexName: "byShop", fields: ["id"])
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  username: String!
+  icon: String!
+}

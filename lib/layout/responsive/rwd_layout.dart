@@ -29,10 +29,10 @@ class RWDLayout extends Container {
         alignment: Alignment.topCenter,
         child: FractionallySizedBox(
           widthFactor: (constraints.maxWidth <= smScreenWidth)
-              ? 1.2
+              ? 0.88
               : (constraints.maxWidth < mdScreenWidth)
-                  ? 1
-                  : 0.5,
+                  ? 0.6
+                  : 0.3,
           child: super.child,
         ),
       ));

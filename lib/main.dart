@@ -3,29 +3,12 @@ import 'package:flutter/material.dart';
 // Amplify Flutter Packages
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:shoppingchk/pages/shop/detail.dart';
+import 'package:shoppingchk/routes/router.dart';
 
 // Generated in previous step
 import 'amplifyconfiguration.dart';
 
-import 'package:go_router/go_router.dart';
-import 'package:shoppingchk/pages/home/index.dart';
-
 void main() => runApp(const ShoppingChkApp());
-
-final GoRouter _router = GoRouter(initialLocation: "/", routes: <RouteBase>[
-  GoRoute(
-      path: "/",
-      name: "ShoppingChk",
-      builder: (BuildContext context, state) => const HomePage(),
-      routes: [
-        GoRoute(
-            path: "shop/:id",
-            name: "Shop Chking",
-            builder: (BuildContext context, state) =>
-                ShopDetailPage(id: state.pathParameters['id']!))
-      ]),
-]);
 
 class ShoppingChkApp extends StatefulWidget {
   const ShoppingChkApp({super.key});
@@ -62,6 +45,7 @@ class _ShoppingChkAppState extends State<ShoppingChkApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -78,6 +62,7 @@ class _ShoppingChkAppState extends State<ShoppingChkApp> {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
+
         primaryColor: Colors.black,
         textTheme: const TextTheme(
             titleMedium: TextStyle(
@@ -87,7 +72,7 @@ class _ShoppingChkAppState extends State<ShoppingChkApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      routerConfig: _router,
+      routerConfig: router,
     );
   }
 }

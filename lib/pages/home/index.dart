@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/widget/shop_item.dart';
@@ -17,7 +17,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     shops = [
       Shop(
@@ -35,7 +34,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _searchQueryController.dispose();
     super.dispose();
   }
@@ -44,6 +42,12 @@ class _HomePageState extends State<HomePage> {
     return AppBar(
       centerTitle: true,
       title: const Text("ShoppingChk"),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.wysiwyg_rounded),
+          onPressed: () => context.push("/request/1"),
+        )
+      ],
       titleTextStyle:
           const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
     );
@@ -52,9 +56,9 @@ class _HomePageState extends State<HomePage> {
   Widget _main() {
     return RWDLayout(
         alignment: Alignment.center,
-        child: FractionallySizedBox(
-          widthFactor: 0.7,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
             TextField(
               controller: _searchQueryController,
               decoration: const InputDecoration(
@@ -71,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                     return ShopItem(shop: shops[index]);
                   }),
             ),
-          ]),
+          ],
         ));
   }
 

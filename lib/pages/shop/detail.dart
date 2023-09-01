@@ -11,12 +11,19 @@ class ShopDetailPage extends StatefulWidget {
 }
 
 class _ShopDetailPageState extends State<ShopDetailPage> {
-  late Future<Shop> _shop;
+  late Shop _shop;
 
   @override
   void initState() {
     super.initState();
-    // _shop = queryShop(widget.id);
+    queryShop(widget.id).then((value) => setState(() => _shop = value));
+  }
+
+  AppBar _appbar(String title) {
+    return AppBar(
+      centerTitle: true,
+      title: Text(title),
+    );
   }
 
   @override
@@ -28,6 +35,6 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
     //           final item = snapshot.data;
     //           return Text(item!.name);
     //         }));
-    return Text("test");
+    return Scaffold(appBar: _appbar(_shop.name), body: Text("test"));
   }
 }

@@ -12,7 +12,7 @@ class ShopItem extends StatelessWidget {
         onTap: () => context.go("/shop/${shop.id}"),
         child: Container(
           alignment: Alignment.topLeft,
-          margin: EdgeInsets.symmetric(vertical: 8.0),
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(children: [
             Center(
               child: Container(

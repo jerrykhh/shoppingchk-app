@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoppingchk/pages/request/shop_request.dart';
+import 'package:shoppingchk/pages/request/form_reg.dart';
 
 class RequestOptionPage extends StatefulWidget {
   final String q;
@@ -12,10 +12,10 @@ class RequestOptionPage extends StatefulWidget {
 class _RequestOptionPageState extends State<RequestOptionPage> {
   @override
   Widget build(BuildContext context) {
-    if (widget.q == "1") {
-      return const ShopRequestPage();
-    } else {
+    if (!reqFormRegister.containsKey(widget.q)) {
       throw Error();
     }
+
+    return reqFormRegister[widget.q] as Widget;
   }
 }

@@ -41,7 +41,10 @@ class _HomePageState extends State<HomePage> {
   Widget _header() {
     return AppBar(
       centerTitle: true,
-      title: const Text("ShoppingChk"),
+      title: const Text(
+        "ShoppingChk",
+        style: TextStyle(color: Colors.black),
+      ),
       actions: [
         IconButton(
           icon: const Icon(Icons.wysiwyg_rounded),

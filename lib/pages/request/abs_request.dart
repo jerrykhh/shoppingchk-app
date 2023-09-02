@@ -31,14 +31,12 @@ abstract class RequestPageState extends State<RequestPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   AppBar _appBar(String title) {
     return AppBar(
       title: Text(title),
-      automaticallyImplyLeading: false,
     );
   }
 
@@ -46,10 +44,7 @@ abstract class RequestPageState extends State<RequestPage> {
       {String title = "Make Request",
       List<Widget> children = const <Widget>[]}) {
     return Scaffold(
-      appBar: AppBar(
-        title: _appBar(title),
-        centerTitle: true,
-      ),
+      appBar: _appBar(title),
       body: RWDLayout(
         alignment: Alignment.center,
         child: Form(key: _formKey, child: Column(children: children)),

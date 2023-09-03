@@ -1,9 +1,8 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shoppingchk/data/shop/query.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
+import 'package:shoppingchk/widget/comment_item.dart';
 
 class ShopDetailPage extends StatefulWidget {
   final String id;
@@ -15,7 +14,7 @@ class ShopDetailPage extends StatefulWidget {
 
 class _ShopDetailPageState extends State<ShopDetailPage> {
   late Shop _shop;
-  late Comment _comment;
+  late List<Comment> _comment;
 
   @override
   void initState() {
@@ -25,6 +24,123 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
         name: "nameasdfadfasdf0923rjoidfjasdklfj0392dfghdfghdfghdfghfdgj",
         address: "address",
         available: true);
+
+    _comment = [
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEUTRAL,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description:
+              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
+          rate: CommentRate.GOOD,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEGATIVE,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEUTRAL,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description:
+              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
+          rate: CommentRate.GOOD,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEGATIVE,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEUTRAL,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description:
+              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
+          rate: CommentRate.GOOD,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEGATIVE,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEUTRAL,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description:
+              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
+          rate: CommentRate.GOOD,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEGATIVE,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEUTRAL,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description:
+              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
+          rate: CommentRate.GOOD,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEGATIVE,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEUTRAL,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description:
+              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
+          rate: CommentRate.GOOD,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+      Comment(
+          userId: "1",
+          description: "description",
+          rate: CommentRate.NEGATIVE,
+          User: User(username: "username", icon: "icon"),
+          shopID: "123213312123312312312"),
+    ];
   }
 
   AppBar _appbar(String title) {
@@ -137,6 +253,17 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
     );
   }
 
+  Widget _shopComment() {
+    return ListView.builder(
+      itemCount: _comment.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return CommentItem(comment: _comment[index]);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // return Scaffold(
@@ -167,7 +294,8 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
               ))),
       body: RWDLayout(
         child: ListView(
-          children: [_shopDetail(), _shopRating()],
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [_shopDetail(), _shopRating(), _shopComment()],
         ),
       ),
     );

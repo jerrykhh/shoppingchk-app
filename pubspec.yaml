@@ -40,6 +40,7 @@ dependencies:
   amplify_auth_cognito: ^1.0.0
   amplify_datastore: ^1.0.0-supports-only-mobile
   shared_preferences: ^2.2.1
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:

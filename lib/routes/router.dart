@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shoppingchk/pages/app_main.dart';
 import 'package:shoppingchk/pages/home/index.dart';
 import 'package:shoppingchk/pages/request/index.dart';
 import 'package:shoppingchk/pages/shop/detail.dart';
@@ -8,7 +9,7 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
   GoRoute(
       path: "/",
       name: "ShoppingChk",
-      builder: (BuildContext context, state) => const HomePage(),
+      builder: (BuildContext context, state) => const AppMainPage(),
       routes: [
         GoRoute(
             path: "shop/:id",

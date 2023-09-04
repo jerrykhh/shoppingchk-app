@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/pages/app_main.dart';
+import 'package:shoppingchk/pages/comment/detail.dart';
 import 'package:shoppingchk/pages/home/index.dart';
 import 'package:shoppingchk/pages/request/index.dart';
 import 'package:shoppingchk/pages/shop/detail.dart';
@@ -19,9 +21,14 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
             routes: [
               GoRoute(
                 path: "request",
-                name: "Shop Comment",
+                name: "Shop Comment Request",
                 builder: (context, state) => const RequestOptionPage(q: "2"),
-              )
+              ),
+              GoRoute(
+                  path: "comment/:cid",
+                  name: "Shop Comment",
+                  builder: (context, state) =>
+                      CommentDetailPage(id: state.pathParameters['cid']!))
             ]),
         GoRoute(
           path: "request/:q",

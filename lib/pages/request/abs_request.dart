@@ -47,7 +47,13 @@ abstract class RequestPageState extends State<RequestPage> {
       appBar: _appBar(title),
       body: RWDLayout(
         alignment: Alignment.center,
-        child: Form(key: _formKey, child: Column(children: children)),
+        child: Form(
+            key: _formKey,
+            child: ListView.builder(
+              itemCount: children.length,
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemBuilder: (context, index) => children[index],
+            )),
       ),
     );
   }

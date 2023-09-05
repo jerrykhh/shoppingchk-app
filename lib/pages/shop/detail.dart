@@ -30,6 +30,7 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
           userId: "1",
           description: "description",
           rate: CommentRate.NEUTRAL,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
@@ -37,18 +38,21 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
           description:
               "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
           rate: CommentRate.GOOD,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEGATIVE,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEUTRAL,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
@@ -56,18 +60,21 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
           description:
               "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
           rate: CommentRate.GOOD,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEGATIVE,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEUTRAL,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
@@ -75,18 +82,21 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
           description:
               "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
           rate: CommentRate.GOOD,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEGATIVE,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEUTRAL,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
@@ -94,18 +104,21 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
           description:
               "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
           rate: CommentRate.GOOD,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEGATIVE,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEUTRAL,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
@@ -113,18 +126,21 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
           description:
               "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
           rate: CommentRate.GOOD,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEGATIVE,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEUTRAL,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
@@ -132,12 +148,14 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
           description:
               "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
           rate: CommentRate.GOOD,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
       Comment(
           userId: "1",
           description: "description",
           rate: CommentRate.NEGATIVE,
+          approved: true,
           User: User(username: "username", icon: "icon"),
           shopID: "123213312123312312312"),
     ];

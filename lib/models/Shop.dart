@@ -37,6 +37,7 @@ class Shop extends amplify_core.Model {
   final double? _latitude;
   final String? _geohash;
   final List<Comment>? _Comments;
+  final StoreCategoryType? _category;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -116,6 +117,10 @@ class Shop extends amplify_core.Model {
     return _Comments;
   }
   
+  StoreCategoryType? get category {
+    return _category;
+  }
+  
   amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -124,9 +129,9 @@ class Shop extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Shop._internal({required this.id, icon, description, required name, required address, required available, longitude, latitude, geohash, Comments, createdAt, updatedAt}): _icon = icon, _description = description, _name = name, _address = address, _available = available, _longitude = longitude, _latitude = latitude, _geohash = geohash, _Comments = Comments, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Shop._internal({required this.id, icon, description, required name, required address, required available, longitude, latitude, geohash, Comments, category, createdAt, updatedAt}): _icon = icon, _description = description, _name = name, _address = address, _available = available, _longitude = longitude, _latitude = latitude, _geohash = geohash, _Comments = Comments, _category = category, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Shop({String? id, String? icon, String? description, required String name, required String address, required bool available, double? longitude, double? latitude, String? geohash, List<Comment>? Comments}) {
+  factory Shop({String? id, String? icon, String? description, required String name, required String address, required bool available, double? longitude, double? latitude, String? geohash, List<Comment>? Comments, StoreCategoryType? category}) {
     return Shop._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       icon: icon,
@@ -137,7 +142,8 @@ class Shop extends amplify_core.Model {
       longitude: longitude,
       latitude: latitude,
       geohash: geohash,
-      Comments: Comments != null ? List<Comment>.unmodifiable(Comments) : Comments);
+      Comments: Comments != null ? List<Comment>.unmodifiable(Comments) : Comments,
+      category: category);
   }
   
   bool equals(Object other) {
@@ -157,7 +163,8 @@ class Shop extends amplify_core.Model {
       _longitude == other._longitude &&
       _latitude == other._latitude &&
       _geohash == other._geohash &&
-      DeepCollectionEquality().equals(_Comments, other._Comments);
+      DeepCollectionEquality().equals(_Comments, other._Comments) &&
+      _category == other._category;
   }
   
   @override
@@ -177,6 +184,7 @@ class Shop extends amplify_core.Model {
     buffer.write("longitude=" + (_longitude != null ? _longitude!.toString() : "null") + ", ");
     buffer.write("latitude=" + (_latitude != null ? _latitude!.toString() : "null") + ", ");
     buffer.write("geohash=" + "$_geohash" + ", ");
+    buffer.write("category=" + (_category != null ? amplify_core.enumToString(_category)! : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -184,7 +192,7 @@ class Shop extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Shop copyWith({String? icon, String? description, String? name, String? address, bool? available, double? longitude, double? latitude, String? geohash, List<Comment>? Comments}) {
+  Shop copyWith({String? icon, String? description, String? name, String? address, bool? available, double? longitude, double? latitude, String? geohash, List<Comment>? Comments, StoreCategoryType? category}) {
     return Shop._internal(
       id: id,
       icon: icon ?? this.icon,
@@ -195,7 +203,8 @@ class Shop extends amplify_core.Model {
       longitude: longitude ?? this.longitude,
       latitude: latitude ?? this.latitude,
       geohash: geohash ?? this.geohash,
-      Comments: Comments ?? this.Comments);
+      Comments: Comments ?? this.Comments,
+      category: category ?? this.category);
   }
   
   Shop copyWithModelFieldValues({
@@ -207,7 +216,8 @@ class Shop extends amplify_core.Model {
     ModelFieldValue<double?>? longitude,
     ModelFieldValue<double?>? latitude,
     ModelFieldValue<String?>? geohash,
-    ModelFieldValue<List<Comment>?>? Comments
+    ModelFieldValue<List<Comment>?>? Comments,
+    ModelFieldValue<StoreCategoryType?>? category
   }) {
     return Shop._internal(
       id: id,
@@ -219,7 +229,8 @@ class Shop extends amplify_core.Model {
       longitude: longitude == null ? this.longitude : longitude.value,
       latitude: latitude == null ? this.latitude : latitude.value,
       geohash: geohash == null ? this.geohash : geohash.value,
-      Comments: Comments == null ? this.Comments : Comments.value
+      Comments: Comments == null ? this.Comments : Comments.value,
+      category: category == null ? this.category : category.value
     );
   }
   
@@ -239,11 +250,12 @@ class Shop extends amplify_core.Model {
           .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
+      _category = amplify_core.enumFromString<StoreCategoryType>(json['category'], StoreCategoryType.values),
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'icon': _icon, 'description': _description, 'name': _name, 'address': _address, 'available': _available, 'longitude': _longitude, 'latitude': _latitude, 'geohash': _geohash, 'Comments': _Comments?.map((Comment? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'icon': _icon, 'description': _description, 'name': _name, 'address': _address, 'available': _available, 'longitude': _longitude, 'latitude': _latitude, 'geohash': _geohash, 'Comments': _Comments?.map((Comment? e) => e?.toJson()).toList(), 'category': amplify_core.enumToString(_category), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -257,6 +269,7 @@ class Shop extends amplify_core.Model {
     'latitude': _latitude,
     'geohash': _geohash,
     'Comments': _Comments,
+    'category': _category,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -274,6 +287,7 @@ class Shop extends amplify_core.Model {
   static final COMMENTS = amplify_core.QueryField(
     fieldName: "Comments",
     fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Comment'));
+  static final CATEGORY = amplify_core.QueryField(fieldName: "category");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Shop";
     modelSchemaDefinition.pluralName = "Shops";
@@ -344,6 +358,12 @@ class Shop extends amplify_core.Model {
       isRequired: false,
       ofModelName: 'Comment',
       associatedKey: Comment.SHOPID
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Shop.CATEGORY,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(

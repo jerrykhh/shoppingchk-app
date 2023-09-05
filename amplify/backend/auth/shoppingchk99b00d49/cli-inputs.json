@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "shoppingchk99b00d49_identitypool_99b00d49",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "shoppi99b00d49",
     "userPoolName": "shoppingchk99b00d49_userpool_99b00d49",
     "autoVerifiedAttributes": [

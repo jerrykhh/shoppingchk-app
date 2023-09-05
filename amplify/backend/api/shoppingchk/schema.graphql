@@ -1,3 +1,28 @@
+enum StoreCategoryType {
+  GROCERY
+  SEAFOOD
+  GREEN
+  DELI
+  FROZEN_MEAT
+  FRESH_MEAT
+  FRUIT
+  SUPERMARKET
+}
+
+enum RequestType {
+  NEWSHOP
+  ISSUE
+}
+
+type Request @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userId: ID!
+  type: RequestType
+  description: AWSJSON
+  images: [String]
+  User: User @hasOne
+}
+
 enum CommentRate {
   GOOD
   NEUTRAL
@@ -7,10 +32,13 @@ enum CommentRate {
 type Comment @model @auth(rules: [{allow: public}]) {
   id: ID!
   userId: String!
-  description: String!
-  rate: CommentRate
-  User: User @hasOne
   shopID: ID! @index(name: "byShop")
+  title: String
+  User: User @hasOne
+  description: String!
+  rate: CommentRate!
+  approved: Boolean!
+  images: [String]
 }
 
 type Shop @model @auth(rules: [{allow: public}]) {
@@ -24,6 +52,7 @@ type Shop @model @auth(rules: [{allow: public}]) {
   latitude: Float
   geohash: String
   Comments: [Comment] @hasMany(indexName: "byShop", fields: ["id"])
+  category: StoreCategoryType
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -31,3 +60,4 @@ type User @model @auth(rules: [{allow: public}]) {
   username: String!
   icon: String!
 }
+ 

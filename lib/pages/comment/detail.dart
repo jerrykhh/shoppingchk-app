@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
@@ -16,19 +17,23 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
   @override
   void initState() {
     super.initState();
-    _comment = Comment(
-        userId: "userId",
-        approved: true,
-        rate: CommentRate.NEGATIVE,
-        description:
-            "descriptasdfasdkfjasdklfjasdklfjkl asdflkjasd;klf jasdflk asdklfjasdl k jasldkf jasdklfjaskldfjasldkfj asdf aklsdjfasdkl fjalsdk jsdklaf jasdkl fjasdklf jsdlakfj asdkl jaklsdf jasdklf jasdlkf jsdfklion",
-        shopID: "shopID",
-        images: [
-          "https://i0.wp.com/www.wcipp.org.au/wp-content/uploads/2022/12/test-image-Not-seen-on-Bungalook-Web-Page-used-for-testing-Image-related-stuff.jpg?fit=1920%2C1080&ssl=1",
-          "https://www.polyu.edu.hk/-/media/department/home/setting/default_image_2x.jpg?bc=ffffff&h=630&w=1200&hash=8AE8BD3002A7BA999BA975E67C49A716",
-          "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource112/v4/e6/aa/57/e6aa57d5-e500-1f75-d892-177f182ad2fc/5312bf0a-a8ab-4949-a9d0-6f3d92379e12_Simulator_Screen_Shot_-_iPhone_13_Pro_Max_-_2022-07-14_at_12.13.27.png/300x0w.jpg"
-        ],
-        User: User(username: "username", icon: ""));
+
+    Amplify.DataStore.query(Comment.classType, where: Comment.ID.eq(widget.id))
+        .then((value) => _comment = value.first);
+
+    // _comment = Comment(
+    //     userId: "userId",
+    //     approved: true,
+    //     rate: CommentRate.NEGATIVE,
+    //     description:
+    //         "descriptasdfasdkfjasdklfjasdklfjkl asdflkjasd;klf jasdflk asdklfjasdl k jasldkf jasdklfjaskldfjasldkfj asdf aklsdjfasdkl fjalsdk jsdklaf jasdkl fjasdklf jsdlakfj asdkl jaklsdf jasdklf jasdlkf jsdfklion",
+    //     shopID: "shopID",
+    //     images: [
+    //       "https://i0.wp.com/www.wcipp.org.au/wp-content/uploads/2022/12/test-image-Not-seen-on-Bungalook-Web-Page-used-for-testing-Image-related-stuff.jpg?fit=1920%2C1080&ssl=1",
+    //       "https://www.polyu.edu.hk/-/media/department/home/setting/default_image_2x.jpg?bc=ffffff&h=630&w=1200&hash=8AE8BD3002A7BA999BA975E67C49A716",
+    //       "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource112/v4/e6/aa/57/e6aa57d5-e500-1f75-d892-177f182ad2fc/5312bf0a-a8ab-4949-a9d0-6f3d92379e12_Simulator_Screen_Shot_-_iPhone_13_Pro_Max_-_2022-07-14_at_12.13.27.png/300x0w.jpg"
+    //     ],
+    //     User: User(username: "username", icon: ""));
   }
 
   @override

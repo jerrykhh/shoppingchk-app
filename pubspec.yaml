@@ -41,6 +41,9 @@ dependencies:
   amplify_datastore: ^1.0.0-supports-only-mobile
   shared_preferences: ^2.2.1
   image_picker: ^1.0.4
+  async: ^2.11.0
+  geolocator: ^10.0.1
+  geocoding: ^2.1.0
 
 dev_dependencies:
   flutter_test:

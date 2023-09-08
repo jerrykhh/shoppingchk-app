@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
@@ -20,122 +21,19 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
   void initState() {
     super.initState();
     //queryShop(widget.id).then((value) => setState(() => _shop = value));
-    _shop = Shop(
-        name: "nameasdfadfasdf0923rjoidfjasdklfj0392dfghdfghdfghdfghfdgj",
-        address: "address",
-        available: true);
+    // _shop = Shop(
+    //     name: "nameasdfadfasdf0923rjoidfjasdklfj0392dfghdfghdfghdfghfdgj",
+    //     address: "address",
+    //     available: true);
 
-    _comment = [
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEUTRAL,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description:
-              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
-          rate: CommentRate.GOOD,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEGATIVE,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEUTRAL,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description:
-              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
-          rate: CommentRate.GOOD,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEGATIVE,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEUTRAL,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description:
-              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
-          rate: CommentRate.GOOD,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEGATIVE,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEUTRAL,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description:
-              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
-          rate: CommentRate.GOOD,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEGATIVE,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEUTRAL,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description:
-              "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
-          rate: CommentRate.GOOD,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
-      Comment(
-          userId: "1",
-          description: "description",
-          rate: CommentRate.NEGATIVE,
-          approved: true,
-          User: User(username: "username", icon: "icon"),
-          shopID: "123213312123312312312"),
+    Amplify.DataStore.query(
+      Shop.classType, where:Shop.ID.eq(widget.id))
+      .then((shop) {
+        _shop = shop.first;
+        _comment = shop.first.Comments ?? [];
+      });
+
+    // _comment = [
       Comment(
           userId: "1",
           description: "description",

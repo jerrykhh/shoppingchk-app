@@ -8,6 +8,10 @@
 	<string>For Upload the Image of the Comment</string>
 	<key>NSCameraUsageDescription</key>
 	<string>For take a photo of the Comment</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
 
 	<key>CFBundleDisplayName</key>
 	<string>Shoppingchk</string>

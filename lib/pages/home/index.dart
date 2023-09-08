@@ -1,8 +1,11 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/widget/shop_item.dart';
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,28 +17,73 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchQueryController = TextEditingController();
   late List<Shop> shops;
+  late List<Shop> orginalShopList;
+
+  static const int _searchFetchingSeconds = 2;
+  DateTime? _latestInputTime;
+  Timer? _latestWaitFetchFuture;
 
   @override
   void initState() {
     super.initState();
-    shops = [
-      Shop(
-          id: "123123123id",
-          name: "test",
-          address: "testsetsetatesatset",
-          available: true),
-      Shop(
-          id: "123123123id",
-          name: "test",
-          address: "testsetsetatesatset",
-          available: true)
-    ];
+    // orginalShopList = [
+    //   Shop(
+    //       id: "123123123id",
+    //       name: "test",
+    //       address: "testsetsetatesatset",
+    //       available: true),
+    //   Shop(
+    //       id: "123123123id",
+    //       name: "test",
+    //       address: "testsetsetatesatset",
+    //       available: true)
+    // ];
+
+    Amplify.DataStore.query(Shop.classType,
+        where: Shop.AVAILABLE.eq(true),
+        pagination: const QueryPagination(limit: 20),
+        sortBy: [
+          QuerySortBy(
+              field: Shop.ID.fieldName, order: QuerySortOrder.descending)
+        ]).then((shopList) => setState(() => orginalShopList = shopList));
+
+    shops = List.from(orginalShopList);
   }
 
   @override
   void dispose() {
     _searchQueryController.dispose();
+    _latestWaitFetchFuture!.cancel();
     super.dispose();
+  }
+
+  void searchShop(String searchValue) {
+    if (searchValue.isEmpty) {
+      setState(() {
+        shops = orginalShopList;
+      });
+
+      return;
+    }
+
+    setState(() {
+      shops = [];
+    });
+
+    if (_latestInputTime != null && _latestWaitFetchFuture != null) {
+      if (DateTime.now().second - _latestInputTime!.second <
+          _searchFetchingSeconds) {
+        _latestWaitFetchFuture!.cancel();
+      }
+    }
+
+    _latestInputTime = DateTime.now();
+    _latestWaitFetchFuture =
+        Timer(const Duration(seconds: _searchFetchingSeconds), () {
+      Amplify.DataStore.query(Shop.classType,
+              where: Shop.AVAILABLE.eq(true).and(Shop.NAME.eq(searchValue)))
+          .then((shopList) => shops = shopList);
+    });
   }
 
   Widget _header() {
@@ -63,6 +111,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TextField(
+              onChanged: (value) => searchShop(value.trim()),
               controller: _searchQueryController,
               decoration: const InputDecoration(
                 focusColor: Colors.black,

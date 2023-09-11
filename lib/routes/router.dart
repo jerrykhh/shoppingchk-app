@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingchk/pages/app_main.dart';
+import 'package:shoppingchk/pages/auth/login.dart';
+import 'package:shoppingchk/pages/auth/register.dart';
 import 'package:shoppingchk/pages/comment/detail.dart';
 import 'package:shoppingchk/pages/request/index.dart';
 import 'package:shoppingchk/pages/shop/detail.dart';
+
+Future<String?> _authRedirect(BuildContext context, GoRouterState state) async {
+  final SharedPreferences _prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = _prefs;
+  final String? userId = prefs.getString('userId');
+
+  if (userId == null) {
+    return "/auth/login";
+  }
+  return null;
+}
 
 final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
   GoRoute(
@@ -33,6 +47,16 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
           name: "Request",
           builder: (context, state) =>
               RequestOptionPage(q: state.pathParameters['q']!),
-        )
+          redirect: (context, state) => _authRedirect(context, state),
+        ),
+        GoRoute(
+          path: "auth/login",
+          name: "Login",
+          builder: (context, state) => const LoginPage(),
+        ),
+        GoRoute(
+            path: "auth/register",
+            name: "Register",
+            builder: (context, state) => const RegisterPage())
       ]),
 ]);

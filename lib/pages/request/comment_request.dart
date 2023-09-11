@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,7 +24,7 @@ class _CommentRequestPageState extends RequestPageState {
       if (images.isEmpty) return;
       setState(() => _imageFileList = images);
     } on PlatformException catch (e) {
-      print("pick image failed $e");
+      safePrint("pick image failed $e");
     }
   }
 

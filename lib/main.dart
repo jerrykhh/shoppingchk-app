@@ -1,14 +1,42 @@
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/material.dart';
 
 // Amplify Flutter Packages
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/routes/router.dart';
 
 // Generated in previous step
 import 'amplifyconfiguration.dart';
 
-void main() => runApp(const ShoppingChkApp());
+void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await _configureAmplify();
+  runApp(const ShoppingChkApp());
+}
+
+Future<void> _configureAmplify() async {
+  // Add any Amplify plugins you want to use
+  final authPlugin = AmplifyAuthCognito();
+  final datastorePlugin =
+      AmplifyDataStore(modelProvider: ModelProvider.instance);
+  await Amplify.addPlugins([datastorePlugin, authPlugin]);
+
+  // You can use addPlugins if you are going to be adding multiple plugins
+  // await Amplify.addPlugins([authPlugin, analyticsPlugin]);
+
+  // Once Plugins are added, configure Amplify
+  // Note: Amplify can only be configured once.
+  try {
+    await Amplify.configure(amplifyconfig);
+  } on AmplifyAlreadyConfiguredException {
+    safePrint(
+        "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+  }
+}
 
 class ShoppingChkApp extends StatefulWidget {
   const ShoppingChkApp({super.key});
@@ -21,25 +49,7 @@ class _ShoppingChkAppState extends State<ShoppingChkApp> {
   @override
   void initState() {
     super.initState();
-    _configureAmplify();
-  }
-
-  Future<void> _configureAmplify() async {
-    // Add any Amplify plugins you want to use
-    final authPlugin = AmplifyAuthCognito();
-    await Amplify.addPlugin(authPlugin);
-
-    // You can use addPlugins if you are going to be adding multiple plugins
-    // await Amplify.addPlugins([authPlugin, analyticsPlugin]);
-
-    // Once Plugins are added, configure Amplify
-    // Note: Amplify can only be configured once.
-    try {
-      await Amplify.configure(amplifyconfig);
-    } on AmplifyAlreadyConfiguredException {
-      safePrint(
-          "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
-    }
+    FlutterNativeSplash.remove();
   }
 
   @override

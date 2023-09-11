@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
+import 'package:shoppingchk/tools/geo_location.dart';
 import 'package:shoppingchk/widget/shop_item.dart';
 import 'dart:async';
 
@@ -16,16 +17,47 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchQueryController = TextEditingController();
-  late List<Shop> shops;
-  late List<Shop> orginalShopList;
+  List<Shop> shops = [];
+  List<Shop> orginalShopList = [];
+  late Position geoPosition;
+  bool isLoading = true;
 
   static const int _searchFetchingSeconds = 2;
   DateTime? _latestInputTime;
   Timer? _latestWaitFetchFuture;
 
+  void getGEOShopList() async {
+    String? geoHash;
+
+    try {
+      Position position = await GEOLocation.instasnce.determinePosition();
+      geoHash = GEOLocation.instasnce.hash(position);
+    } catch (error) {
+      geoHash = null;
+    }
+
+    Amplify.DataStore.query(Shop.classType,
+        where: (geoHash != null)
+            ? Shop.AVAILABLE.eq(true).and(Shop.GEOHASH.beginsWith(geoHash))
+            : Shop.AVAILABLE.eq(true),
+        pagination: const QueryPagination(limit: 20),
+        sortBy: [
+          QuerySortBy(
+              field: Shop.ID.fieldName, order: QuerySortOrder.descending)
+        ]).then((shopList) {
+      setState(() {
+        shops = shopList;
+        isLoading = false;
+      });
+    });
+    orginalShopList = List.from(shops);
+  }
+
   @override
   void initState() {
     super.initState();
+    getGEOShopList();
+
     // orginalShopList = [
     //   Shop(
     //       id: "123123123id",
@@ -38,22 +70,12 @@ class _HomePageState extends State<HomePage> {
     //       address: "testsetsetatesatset",
     //       available: true)
     // ];
-
-    Amplify.DataStore.query(Shop.classType,
-        where: Shop.AVAILABLE.eq(true),
-        pagination: const QueryPagination(limit: 20),
-        sortBy: [
-          QuerySortBy(
-              field: Shop.ID.fieldName, order: QuerySortOrder.descending)
-        ]).then((shopList) => setState(() => orginalShopList = shopList));
-
-    shops = List.from(orginalShopList);
   }
 
   @override
   void dispose() {
     _searchQueryController.dispose();
-    _latestWaitFetchFuture!.cancel();
+    _latestWaitFetchFuture?.cancel();
     super.dispose();
   }
 
@@ -120,12 +142,14 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: ListView.builder(
-                  itemCount: shops.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return ShopItem(shop: shops[index]);
-                  }),
+              child: (!isLoading)
+                  ? ListView.builder(
+                      itemCount: shops.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return ShopItem(shop: shops[index]);
+                      })
+                  : Text("loading"),
             ),
           ],
         ));

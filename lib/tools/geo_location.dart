@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:geolocator/geolocator.dart';
+import 'package:dart_geohash/dart_geohash.dart';
 
 class GEOLocation {
   GEOLocation._privateConstructor();
@@ -6,6 +9,12 @@ class GEOLocation {
       GEOLocation._privateConstructor();
   static GEOLocation get instasnce => _locationPermission;
   bool? _isEnable;
+  final geoHasher = GeoHasher();
+
+  String hash(Position position, {int precision = 9}) {
+    return geoHasher.encode(position.altitude, position.longitude,
+        precision: precision);
+  }
 
   Future<bool> isServiceEnable() async {
     if (!_isEnable!) return false;

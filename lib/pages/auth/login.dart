@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
+import 'package:shoppingchk/pages/auth/verify.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final ConfirmedSignUpRestult? confirmedSignUpRestult;
+  const LoginPage({super.key, this.confirmedSignUpRestult});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -18,6 +20,14 @@ class _LoginPageState extends State<LoginPage> {
 
   String errorMessage = "";
   bool _isSubmittedLoginForm = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = (widget.confirmedSignUpRestult != null)
+        ? widget.confirmedSignUpRestult!.emailAddress
+        : "";
+  }
 
   Future<void> _handleSignInResult(SignInResult result) async {
     switch (result.nextStep.signInStep) {
@@ -155,6 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                             if ((_formKey.currentState as FormState)
                                 .validate()) {
                               setState(() {
+                                errorMessage = "";
                                 _isSubmittedLoginForm = true;
                               });
                               if (await _handleLogin()) {

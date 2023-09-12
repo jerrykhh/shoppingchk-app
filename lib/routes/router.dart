@@ -1,9 +1,13 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingchk/pages/app_main.dart';
 import 'package:shoppingchk/pages/auth/login.dart';
+import 'package:shoppingchk/pages/auth/pwd_reset.dart';
 import 'package:shoppingchk/pages/auth/register.dart';
+import 'package:shoppingchk/pages/auth/verify.dart';
 import 'package:shoppingchk/pages/comment/detail.dart';
 import 'package:shoppingchk/pages/request/index.dart';
 import 'package:shoppingchk/pages/shop/detail.dart';
@@ -52,11 +56,30 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
         GoRoute(
           path: "auth/login",
           name: "Login",
-          builder: (context, state) => const LoginPage(),
+          builder: (context, state) {
+            ConfirmedSignUpRestult? sigupResult =
+                state.extra as ConfirmedSignUpRestult?;
+            return LoginPage(confirmedSignUpRestult: sigupResult);
+          },
         ),
         GoRoute(
             path: "auth/register",
             name: "Register",
-            builder: (context, state) => const RegisterPage())
+            builder: (context, state) => const RegisterPage()),
+        GoRoute(
+            path: "auth/verify",
+            name: "Verify Account",
+            builder: (context, state) {
+              String emailAddress = state.extra as String;
+              return VerifyPage(emailAddress: emailAddress);
+            }),
+        GoRoute(
+          path: "auth/reset",
+          name: "Reset Password",
+          builder: (context, state) {
+            String emailAddress = state.extra as String;
+            return ResetPasswordPage(emailAddress: emailAddress);
+          },
+        )
       ]),
 ]);

@@ -4,19 +4,61 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/pages/request/abs_request.dart';
+import 'package:path/path.dart' as p;
 
 class CommentRequestPage extends RequestPage {
-  const CommentRequestPage({super.key});
+  final String shopID;
+  const CommentRequestPage({super.key, required this.shopID});
+
+  void handleCommentCreate(
+      {required String userId,
+      title,
+      description,
+      List<XFile> images = const [],
+      CommentRate rate = CommentRate.NEUTRAL}) async {
+    List<String> imagePaths = [];
+
+    if (images.isNotEmpty) {
+      List<String?> uploadedImagePaths =
+          await Future.wait(images.map((element) async {
+        try {
+          final uuid = UUID.getUUID();
+          final fileExtension = p.extension(element.path);
+          final key = "$shopID/$uuid$fileExtension";
+          final result = await Amplify.Storage.uploadFile(
+                  localFile: AWSFile.fromPath(element.path), key: key)
+              .result;
+          return result.uploadedItem.key;
+        } on StorageException catch (e) {
+          safePrint("Error uploading file: $e");
+        }
+        return null;
+      }));
+
+      imagePaths = uploadedImagePaths.whereType<String>().toList();
+    }
+
+    Amplify.DataStore.save(Comment(
+        userId: userId,
+        shopID: shopID,
+        rate: rate,
+        description: description,
+        images: imagePaths,
+        approved: false));
+  }
+
   @override
   State<RequestPage> createState() => _CommentRequestPageState();
 }
 
-class _CommentRequestPageState extends RequestPageState {
+class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final ImagePicker _imagePicker = ImagePicker();
   List<XFile> _imageFileList = [];
+  // CommentRate rate;
 
   Future pickImage() async {
     try {
@@ -64,7 +106,7 @@ class _CommentRequestPageState extends RequestPageState {
           decoration: const InputDecoration(
               border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black)),
-              labelText: "Description/Remark (optional)",
+              labelText: "Description",
               alignLabelWithHint: true),
           validator: (value) {
             return value!.trim().isNotEmpty
@@ -146,7 +188,14 @@ class _CommentRequestPageState extends RequestPageState {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             onPressed: () {
-              if ((formKey.currentState as FormState).validate()) {}
+              if ((formKey.currentState as FormState).validate()) {
+                widget.widget.handleCommentCreate(
+                  userId: userId,
+                  title: _titleController.text.trim(),
+                  description: _descriptionController.text.trim(),
+                  images: _imageFileList,
+                );
+              }
             },
           )),
     ]);

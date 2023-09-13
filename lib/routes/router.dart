@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,14 +14,18 @@ import 'package:shoppingchk/pages/request/index.dart';
 import 'package:shoppingchk/pages/shop/detail.dart';
 
 Future<String?> _authRedirect(BuildContext context, GoRouterState state) async {
-  final SharedPreferences _prefs = await SharedPreferences.getInstance();
-  final SharedPreferences prefs = _prefs;
-  final String? userId = prefs.getString('userId');
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? user = prefs.getString('user');
 
-  if (userId == null) {
+  if (user == null) {
     return "/auth/login";
   }
-  return null;
+
+  if ((await Amplify.Auth.fetchAuthSession()).isSignedIn) {
+    return null;
+  }
+
+  return "/auth/login";
 }
 
 final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[

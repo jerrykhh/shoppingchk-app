@@ -23,7 +23,6 @@ import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'Comment.dart';
 import 'Request.dart';
 import 'Shop.dart';
-import 'User.dart';
 
 export 'Comment.dart';
 export 'CommentRate.dart';
@@ -31,13 +30,12 @@ export 'Request.dart';
 export 'RequestType.dart';
 export 'Shop.dart';
 export 'StoreCategoryType.dart';
-export 'User.dart';
 
 class ModelProvider implements amplify_core.ModelProviderInterface {
   @override
-  String version = "1e5c71c5ea4f81f1f9400cf3de9dba5b";
+  String version = "e963e6344bd47973eedd94aa66173cb1";
   @override
-  List<amplify_core.ModelSchema> modelSchemas = [Comment.schema, Request.schema, Shop.schema, User.schema];
+  List<amplify_core.ModelSchema> modelSchemas = [Comment.schema, Request.schema, Shop.schema];
   @override
   List<amplify_core.ModelSchema> customTypeSchemas = [];
   static final ModelProvider _instance = ModelProvider();
@@ -52,8 +50,6 @@ class ModelProvider implements amplify_core.ModelProviderInterface {
         return Request.classType;
       case "Shop":
         return Shop.classType;
-      case "User":
-        return User.classType;
       default:
         throw Exception("Failed to find model in model provider for model name: " + modelName);
     }

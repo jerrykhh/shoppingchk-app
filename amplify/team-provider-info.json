@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "shoppingchk99b00d49": {}
+        "shoppingchk99b00d49": {},
+        "shoppingchk": {}
       },
       "storage": {
         "s3shoppingchkcmstorage": {}

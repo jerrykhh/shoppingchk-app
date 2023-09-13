@@ -23,7 +23,7 @@
     }
   },
   "auth": {
-    "shoppingchk99b00d49": {
+    "shoppingchk": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -38,7 +38,9 @@
         "signupAttributes": [
           "BIRTHDATE",
           "EMAIL",
-          "NAME"
+          "NAME",
+          "PREFERRED_USERNAME",
+          "PICTURE"
         ],
         "socialProviders": [],
         "usernameAttributes": [

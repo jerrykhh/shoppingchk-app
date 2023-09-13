@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
+import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/pages/auth/verify.dart';
 
 class LoginPage extends StatefulWidget {
@@ -44,7 +48,12 @@ class _LoginPageState extends State<LoginPage> {
       case AuthSignInStep.done:
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         final user = await Amplify.Auth.getCurrentUser();
-        prefs.setString("userId", user.userId);
+        // final dbUser = (await Amplify.DataStore.query(User.classType,
+        //         where: User.ID.eq(user.userId)))
+        //     .first;
+
+        prefs.setString("user", jsonEncode(user));
+
         break;
 
       case AuthSignInStep.confirmSignInWithCustomChallenge:

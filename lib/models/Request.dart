@@ -23,6 +23,7 @@ import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 
+
 /** This is an auto generated class representing the Request type in your schema. */
 class Request extends amplify_core.Model {
   static const classType = const _RequestModelType();
@@ -31,321 +32,220 @@ class Request extends amplify_core.Model {
   final RequestType? _type;
   final String? _description;
   final List<String>? _images;
-  final User? _User;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
-  final String? _requestUserId;
 
   @override
   getInstanceType() => classType;
-
-  @Deprecated(
-      '[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
   @override
   String getId() => id;
-
+  
   RequestModelIdentifier get modelIdentifier {
-    return RequestModelIdentifier(id: id);
+      return RequestModelIdentifier(
+        id: id
+      );
   }
-
+  
   String get userId {
     try {
       return _userId!;
-    } catch (e) {
+    } catch(e) {
       throw amplify_core.AmplifyCodeGenModelException(
-          amplify_core.AmplifyExceptionMessages
-              .codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion: amplify_core.AmplifyExceptionMessages
-              .codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString());
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
     }
   }
-
+  
   RequestType? get type {
     return _type;
   }
-
+  
   String? get description {
     return _description;
   }
-
+  
   List<String>? get images {
     return _images;
   }
-
-  User? get Customer {
-    return _User;
-  }
-
+  
   amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
-
+  
   amplify_core.TemporalDateTime? get updatedAt {
     return _updatedAt;
   }
-
-  String? get requestUserId {
-    return _requestUserId;
-  }
-
-  const Request._internal(
-      {required this.id,
-      required userId,
-      type,
-      description,
-      images,
-      User,
-      createdAt,
-      updatedAt,
-      requestUserId})
-      : _userId = userId,
-        _type = type,
-        _description = description,
-        _images = images,
-        _User = User,
-        _createdAt = createdAt,
-        _updatedAt = updatedAt,
-        _requestUserId = requestUserId;
-
-  factory Request(
-      {String? id,
-      required String userId,
-      RequestType? type,
-      String? description,
-      List<String>? images,
-      User? User,
-      String? requestUserId}) {
+  
+  const Request._internal({required this.id, required userId, type, description, images, createdAt, updatedAt}): _userId = userId, _type = type, _description = description, _images = images, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory Request({String? id, required String userId, RequestType? type, String? description, List<String>? images}) {
     return Request._internal(
-        id: id == null ? amplify_core.UUID.getUUID() : id,
-        userId: userId,
-        type: type,
-        description: description,
-        images: images != null ? List<String>.unmodifiable(images) : images,
-        User: User,
-        requestUserId: requestUserId);
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      userId: userId,
+      type: type,
+      description: description,
+      images: images != null ? List<String>.unmodifiable(images) : images);
   }
-
+  
   bool equals(Object other) {
     return this == other;
   }
-
+  
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is Request &&
-        id == other.id &&
-        _userId == other._userId &&
-        _type == other._type &&
-        _description == other._description &&
-        DeepCollectionEquality().equals(_images, other._images) &&
-        _User == other._User &&
-        _requestUserId == other._requestUserId;
+      id == other.id &&
+      _userId == other._userId &&
+      _type == other._type &&
+      _description == other._description &&
+      DeepCollectionEquality().equals(_images, other._images);
   }
-
+  
   @override
   int get hashCode => toString().hashCode;
-
+  
   @override
   String toString() {
     var buffer = new StringBuffer();
-
+    
     buffer.write("Request {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("userId=" + "$_userId" + ", ");
-    buffer.write("type=" +
-        (_type != null ? amplify_core.enumToString(_type)! : "null") +
-        ", ");
+    buffer.write("type=" + (_type != null ? amplify_core.enumToString(_type)! : "null") + ", ");
     buffer.write("description=" + "$_description" + ", ");
-    buffer.write(
-        "images=" + (_images != null ? _images!.toString() : "null") + ", ");
-    buffer.write("createdAt=" +
-        (_createdAt != null ? _createdAt!.format() : "null") +
-        ", ");
-    buffer.write("updatedAt=" +
-        (_updatedAt != null ? _updatedAt!.format() : "null") +
-        ", ");
-    buffer.write("requestUserId=" + "$_requestUserId");
+    buffer.write("images=" + (_images != null ? _images!.toString() : "null") + ", ");
+    buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
+    buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
-
+    
     return buffer.toString();
   }
-
-  Request copyWith(
-      {String? userId,
-      RequestType? type,
-      String? description,
-      List<String>? images,
-      User? User,
-      String? requestUserId}) {
+  
+  Request copyWith({String? userId, RequestType? type, String? description, List<String>? images}) {
     return Request._internal(
-        id: id,
-        userId: userId ?? this.userId,
-        type: type ?? this.type,
-        description: description ?? this.description,
-        images: images ?? this.images,
-        User: User ?? Customer,
-        requestUserId: requestUserId ?? this.requestUserId);
+      id: id,
+      userId: userId ?? this.userId,
+      type: type ?? this.type,
+      description: description ?? this.description,
+      images: images ?? this.images);
   }
-
-  Request copyWithModelFieldValues(
-      {ModelFieldValue<String>? userId,
-      ModelFieldValue<RequestType?>? type,
-      ModelFieldValue<String?>? description,
-      ModelFieldValue<List<String>?>? images,
-      ModelFieldValue<User?>? User,
-      ModelFieldValue<String?>? requestUserId}) {
+  
+  Request copyWithModelFieldValues({
+    ModelFieldValue<String>? userId,
+    ModelFieldValue<RequestType?>? type,
+    ModelFieldValue<String?>? description,
+    ModelFieldValue<List<String>?>? images
+  }) {
     return Request._internal(
-        id: id,
-        userId: userId == null ? this.userId : userId.value,
-        type: type == null ? this.type : type.value,
-        description: description == null ? this.description : description.value,
-        images: images == null ? this.images : images.value,
-        User: User == null ? Customer : User.value,
-        requestUserId:
-            requestUserId == null ? this.requestUserId : requestUserId.value);
+      id: id,
+      userId: userId == null ? this.userId : userId.value,
+      type: type == null ? this.type : type.value,
+      description: description == null ? this.description : description.value,
+      images: images == null ? this.images : images.value
+    );
   }
-
-  Request.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        _userId = json['userId'],
-        _type = amplify_core.enumFromString<RequestType>(
-            json['type'], RequestType.values),
-        _description = json['description'],
-        _images = json['images']?.cast<String>(),
-        _User = json['User']?['serializedData'] != null
-            ? User.fromJson(
-                new Map<String, dynamic>.from(json['User']['serializedData']))
-            : null,
-        _createdAt = json['createdAt'] != null
-            ? amplify_core.TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        _updatedAt = json['updatedAt'] != null
-            ? amplify_core.TemporalDateTime.fromString(json['updatedAt'])
-            : null,
-        _requestUserId = json['requestUserId'];
-
+  
+  Request.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _userId = json['userId'],
+      _type = amplify_core.enumFromString<RequestType>(json['type'], RequestType.values),
+      _description = json['description'],
+      _images = json['images']?.cast<String>(),
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'userId': _userId,
-        'type': amplify_core.enumToString(_type),
-        'description': _description,
-        'images': _images,
-        'User': _User?.toJson(),
-        'createdAt': _createdAt?.format(),
-        'updatedAt': _updatedAt?.format(),
-        'requestUserId': _requestUserId
-      };
-
+    'id': id, 'userId': _userId, 'type': amplify_core.enumToString(_type), 'description': _description, 'images': _images, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
   Map<String, Object?> toMap() => {
-        'id': id,
-        'userId': _userId,
-        'type': _type,
-        'description': _description,
-        'images': _images,
-        'User': _User,
-        'createdAt': _createdAt,
-        'updatedAt': _updatedAt,
-        'requestUserId': _requestUserId
-      };
+    'id': id,
+    'userId': _userId,
+    'type': _type,
+    'description': _description,
+    'images': _images,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
 
-  static final amplify_core.QueryModelIdentifier<RequestModelIdentifier>
-      MODEL_IDENTIFIER =
-      amplify_core.QueryModelIdentifier<RequestModelIdentifier>();
+  static final amplify_core.QueryModelIdentifier<RequestModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<RequestModelIdentifier>();
   static final ID = amplify_core.QueryField(fieldName: "id");
   static final USERID = amplify_core.QueryField(fieldName: "userId");
   static final TYPE = amplify_core.QueryField(fieldName: "type");
   static final DESCRIPTION = amplify_core.QueryField(fieldName: "description");
   static final IMAGES = amplify_core.QueryField(fieldName: "images");
-  static final USER = amplify_core.QueryField(
-      fieldName: "User",
-      fieldType: amplify_core.ModelFieldType(
-          amplify_core.ModelFieldTypeEnum.model,
-          ofModelName: 'User'));
-  static final REQUESTUSERID =
-      amplify_core.QueryField(fieldName: "requestUserId");
-  static var schema = amplify_core.Model.defineSchema(
-      define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Request";
     modelSchemaDefinition.pluralName = "Requests";
-
+    
     modelSchemaDefinition.authRules = [
       amplify_core.AuthRule(
-          authStrategy: amplify_core.AuthStrategy.PUBLIC,
-          operations: const [
-            amplify_core.ModelOperation.CREATE,
-            amplify_core.ModelOperation.UPDATE,
-            amplify_core.ModelOperation.DELETE,
-            amplify_core.ModelOperation.READ
-          ])
+        authStrategy: amplify_core.AuthStrategy.PUBLIC,
+        operations: const [
+          amplify_core.ModelOperation.CREATE,
+          amplify_core.ModelOperation.UPDATE,
+          amplify_core.ModelOperation.DELETE,
+          amplify_core.ModelOperation.READ
+        ])
     ];
-
+    
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
-
+    
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-        key: Request.USERID,
-        isRequired: true,
-        ofType: amplify_core.ModelFieldType(
-            amplify_core.ModelFieldTypeEnum.string)));
-
+      key: Request.USERID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-        key: Request.TYPE,
-        isRequired: false,
-        ofType: amplify_core.ModelFieldType(
-            amplify_core.ModelFieldTypeEnum.enumeration)));
-
+      key: Request.TYPE,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
+    ));
+    
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-        key: Request.DESCRIPTION,
-        isRequired: false,
-        ofType: amplify_core.ModelFieldType(
-            amplify_core.ModelFieldTypeEnum.string)));
-
+      key: Request.DESCRIPTION,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-        key: Request.IMAGES,
-        isRequired: false,
-        isArray: true,
-        ofType: amplify_core.ModelFieldType(
-            amplify_core.ModelFieldTypeEnum.collection,
-            ofModelName: amplify_core.ModelFieldTypeEnum.string.name)));
-
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
-        key: Request.USER,
-        isRequired: false,
-        ofModelName: 'User',
-        associatedKey: User.ID));
-
-    modelSchemaDefinition.addField(
-        amplify_core.ModelFieldDefinition.nonQueryField(
-            fieldName: 'createdAt',
-            isRequired: false,
-            isReadOnly: true,
-            ofType: amplify_core.ModelFieldType(
-                amplify_core.ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(
-        amplify_core.ModelFieldDefinition.nonQueryField(
-            fieldName: 'updatedAt',
-            isRequired: false,
-            isReadOnly: true,
-            ofType: amplify_core.ModelFieldType(
-                amplify_core.ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-        key: Request.REQUESTUSERID,
-        isRequired: false,
-        ofType: amplify_core.ModelFieldType(
-            amplify_core.ModelFieldTypeEnum.string)));
+      key: Request.IMAGES,
+      isRequired: false,
+      isArray: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.string.name)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
   });
 }
 
 class _RequestModelType extends amplify_core.ModelType<Request> {
   const _RequestModelType();
-
+  
   @override
   Request fromJson(Map<String, dynamic> jsonData) {
     return Request.fromJson(jsonData);
   }
-
+  
   @override
   String modelName() {
     return 'Request';
@@ -360,32 +260,37 @@ class RequestModelIdentifier implements amplify_core.ModelIdentifier<Request> {
   final String id;
 
   /** Create an instance of RequestModelIdentifier using [id] the primary key. */
-  const RequestModelIdentifier({required this.id});
-
+  const RequestModelIdentifier({
+    required this.id});
+  
   @override
-  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{'id': id});
-
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
   @override
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
-      .entries
-      .map((entry) => (<String, dynamic>{entry.key: entry.value}))
-      .toList();
-
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
   @override
   String serializeAsString() => serializeAsMap().values.join('#');
-
+  
   @override
   String toString() => 'RequestModelIdentifier(id: $id)';
-
+  
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
       return true;
     }
-
-    return other is RequestModelIdentifier && id == other.id;
+    
+    return other is RequestModelIdentifier &&
+      id == other.id;
   }
-
+  
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode =>
+    id.hashCode;
 }

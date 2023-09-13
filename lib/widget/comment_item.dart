@@ -35,10 +35,10 @@ class CommentItem extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        comment.Customer!.username,
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
+                      // Text(
+                      //   comment.Customer!.username,
+                      //   style: Theme.of(context).textTheme.labelSmall,
+                      // ),
                       Text(
                         comment.description,
                         style: const TextStyle(

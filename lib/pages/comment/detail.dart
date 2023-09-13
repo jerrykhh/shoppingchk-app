@@ -92,13 +92,14 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black12),
                                   borderRadius: BorderRadius.circular(60.0)),
-                              child: (_comment.Customer!.icon.isEmpty ||
-                                      _comment.Customer!.icon == "")
-                                  ? const Icon(Icons.person_2_rounded)
-                                  : Image.network(
-                                      _comment.Customer!.icon,
-                                      fit: BoxFit.cover,
-                                    ),
+                              child: const Icon(Icons.person_2_rounded),
+                              // child: (_comment.Customer!.icon.isEmpty ||
+                              //         _comment.Customer!.icon == "")
+                              //     ? const Icon(Icons.person_2_rounded)
+                              //     : Image.network(
+                              //         _comment.Customer!.icon,
+                              //         fit: BoxFit.cover,
+                              //       ),
                             )),
                         Flexible(
                             flex: 8,
@@ -111,12 +112,12 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          _comment.Customer!.username,
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                        // Text(
+                                        //   _comment.Customer!.username,
+                                        //   style: const TextStyle(
+                                        //       fontSize: 14,
+                                        //       fontWeight: FontWeight.bold),
+                                        // ),
                                         Text(
                                           _comment.createdAt.toString(),
                                           style: Theme.of(context)

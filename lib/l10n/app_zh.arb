@@ -1,0 +1,43 @@
+{
+    "@@locale": "zh",
+    "placeholderSearch": "搜尋...",
+    "@placeholderSearch": {
+        "description": "placeholder for Search"
+    },
+    "btnSubmit": "提交",
+    "@btnSubmit": {
+        "description": "Submit Button"
+    },
+    "shopRequestTitle": "此表格用於請求新商店，請提供有關商店的詳細信息。",
+    "@shopRequestTitle": {
+        "description": "Shop Request Page Title"
+    },
+    "shopRequestShopTextFieldLabel": "店鋪名稱",
+    "@shopRequestShopTextFieldLabel": {
+        "description": "Shop Request Page Shop TextField Label"
+    },
+    "shopRequestShopTextFieldErrorMes": "店鋪名稱不能為空",
+    "@shopRequestShopTextFieldErrorMes": {
+        "description": "Shop Request Page Shop TextField Err Message"
+    },
+    "shopRequestShopAddressTextFieldLabel": "地址",
+    "@shopRequestShopAddressTextFieldLabel": {
+        "description": "Shop Request Page Shop Address TextField Label"
+    },
+    "shopRequestShopAddressTextFieldHint": "請給個詳細地址",
+    "@shopRequestShopAddressTextFieldHint": {
+        "description": "Shop Request Page Shop Address TextField Hint"
+    },
+    "shopRequestShopAddressTextFieldErrorMes": "地址不能為空",
+    "@shopRequestShopAddressTextFieldErrorMes": {
+        "description": "Shop Request Page Shop Address TextField Err Message"
+    },
+    "shopRequestShopDescriptionTextFieldLabel": "描述/備註(可選)",
+    "@shopRequestShopDescriptionTextFieldLabel": {
+        "description": "Shop Request Page Shop Description/Remark TextField Label"
+    },
+    "commentRequestCommentTitleTextFieldLabel": "標題(可選)",
+    "commentRequestCommentDescriptionTextFieldLable": "描述",
+    "commentRequestCommentDescriptionTextFieldErrorMes": "描述不能為空",
+    "commentRequestCommentImagePickerLabel": "選擇圖片（可選）"
+}

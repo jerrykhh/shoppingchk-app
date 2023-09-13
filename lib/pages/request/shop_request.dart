@@ -1,4 +1,9 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/pages/request/abs_request.dart';
 
 class ShopRequestPage extends RequestPage {
@@ -12,6 +17,15 @@ class _ShopRequestState extends RequestPageState {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
+  void _handleShopCreateRequest() async {
+    Amplify.DataStore.save(Request(
+        userId: userId,
+        description: _descriptionController.text.trim(),
+        type: RequestType.NEWSHOP));
+
+    context.pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +60,8 @@ class _ShopRequestState extends RequestPageState {
             decoration: const InputDecoration(
               border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black)),
-              hintText: "Address",
-              labelText: "Please give a detail address",
+              hintText: "Please give a detail address",
+              labelText: "Address",
             ),
             validator: (value) {
               return value!.trim().isNotEmpty
@@ -84,7 +98,9 @@ class _ShopRequestState extends RequestPageState {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             onPressed: () {
-              if ((formKey.currentState as FormState).validate()) {}
+              if ((formKey.currentState as FormState).validate()) {
+                _handleShopCreateRequest();
+              }
             },
           )),
     ]);

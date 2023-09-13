@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shoppingchk/pages/request/comment_request.dart';
 import 'package:shoppingchk/pages/request/form_reg.dart';
 
 class RequestOptionPage extends StatefulWidget {
   final String q;
-  const RequestOptionPage({super.key, required this.q});
+  final Map<String, dynamic> params;
+  const RequestOptionPage({super.key, required this.q, this.params = const {}});
 
   @override
   State<RequestOptionPage> createState() => _RequestOptionPageState();
@@ -16,6 +18,14 @@ class _RequestOptionPageState extends State<RequestOptionPage> {
       throw Error();
     }
 
-    return reqFormRegister[widget.q] as Widget;
+    Widget selectedWidget;
+    if (reqFormRegister[widget.q] is CommentRequestPage Function(String)) {
+      // The selected widget is CommentRequestPage
+      selectedWidget = reqFormRegister[widget.q]!(widget.params['shopID']);
+    } else {
+      selectedWidget = reqFormRegister[widget.q]!();
+    }
+
+    return selectedWidget;
   }
 }

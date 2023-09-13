@@ -4,7 +4,6 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
-import 'package:shoppingchk/models/User.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -27,17 +26,17 @@ class _RegisterPageState extends State<RegisterPage> {
   String errorMessage = "";
   bool _isDuplciatedUsername = false;
 
-  Future<bool> _checkIsDuplicatedUsername() async {
-    String username = _usernameController.text;
-    List<User> users = await Amplify.DataStore.query(User.classType,
-        where: User.USERNAME.eq(username),
-        pagination: const QueryPagination(limit: 1));
+  // Future<bool> _checkIsDuplicatedUsername() async {
+  //   String username = _usernameController.text;
+  //   // List<User> users = await Amplify.DataStore.query(User.classType,
+  //   //     where: User.USERNAME.eq(username),
+  //   //     pagination: const QueryPagination(limit: 1));
 
-    setState(() {
-      _isDuplciatedUsername = users.isNotEmpty;
-    });
-    return users.isNotEmpty;
-  }
+  //   setState(() {
+  //     _isDuplciatedUsername = users.isNotEmpty;
+  //   });
+  //   return users.isNotEmpty;
+  // }
 
   Future<void> _handleSignUpResult(SignUpResult result) async {
     switch (result.nextStep.signUpStep) {
@@ -194,9 +193,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         onPressed: () async {
                           if ((_formKey.currentState as FormState).validate()) {
-                            if (!await _checkIsDuplicatedUsername()) {
-                              handleRegister();
-                            }
+                            // if (!await _checkIsDuplicatedUsername()) {
+                            handleRegister();
+                            // }
                           }
                         },
                       )),

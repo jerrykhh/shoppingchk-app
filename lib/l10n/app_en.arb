@@ -1,0 +1,43 @@
+{
+    "@@locale": "en",
+    "placeholderSearch": "Please Search here...",
+    "@placeholderSearch": {
+        "description": "placeholder for Search"
+    },
+    "btnSubmit": "Submit",
+    "@btnSubmit": {
+        "description": "Submit Button"
+    },
+    "shopRequestTitle": "This form for request new Shop, please provide details about the shop.",
+    "@shopRequestTitle": {
+        "description": "Shop Request Page Title"
+    },
+    "shopRequestShopTextFieldLabel": "Shop name",
+    "@shopRequestShopTextFieldLabel": {
+        "description": "Shop Request Page Shop TextField Label"
+    },
+    "shopRequestShopTextFieldErrorMes": "Shop name Cannot be Empty",
+    "@shopRequestShopTextFieldErrorMes": {
+        "description": "Shop Request Page Shop TextField Err Message"
+    },
+    "shopRequestShopAddressTextFieldLabel": "Address",
+    "@shopRequestShopAddressTextFieldLabel": {
+        "description": "Shop Request Page Shop Address TextField Label"
+    },
+    "shopRequestShopAddressTextFieldHint": "Please give a detail address",
+    "@shopRequestShopAddressTextFieldHint": {
+        "description": "Shop Request Page Shop Address TextField Hint"
+    },
+    "shopRequestShopAddressTextFieldErrorMes": "Address Cannot be Empty",
+    "@shopRequestShopAddressTextFieldErrorMes": {
+        "description": "Shop Request Page Shop Address TextField Err Message"
+    },
+    "shopRequestShopDescriptionTextFieldLabel": "Description/Remark (optional)",
+    "@shopRequestShopDescriptionTextFieldLabel": {
+        "description": "Shop Request Page Shop Description/Remark TextField Label"
+    },
+    "commentRequestCommentTitleTextFieldLabel": "Title (Optional)",
+    "commentRequestCommentDescriptionTextFieldLable": "Description",
+    "commentRequestCommentDescriptionTextFieldErrorMes": "Description Cannot be Empty",
+    "commentRequestCommentImagePickerLabel": "Pick a picture (Optional)"
+}

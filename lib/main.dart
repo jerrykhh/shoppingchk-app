@@ -1,4 +1,6 @@
 import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +25,8 @@ Future<void> _configureAmplify() async {
   final authPlugin = AmplifyAuthCognito();
   final datastorePlugin =
       AmplifyDataStore(modelProvider: ModelProvider.instance);
-  await Amplify.addPlugins([datastorePlugin, authPlugin]);
+  final s3Plugin = AmplifyStorageS3();
+  await Amplify.addPlugins([datastorePlugin, authPlugin, s3Plugin]);
 
   // You can use addPlugins if you are going to be adding multiple plugins
   // await Amplify.addPlugins([authPlugin, analyticsPlugin]);
@@ -56,6 +59,17 @@ class _ShoppingChkAppState extends State<ShoppingChkApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      title: "ShoppingChk App",
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        // Locale.fromSubtags(languageCode: 'zh', countryCode: 'HK'), // Chinese
+        Locale('zh')
+      ],
       theme: ThemeData(
         // This is the theme of your application.
         //

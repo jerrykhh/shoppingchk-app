@@ -1,4 +1,7 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -9,8 +12,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  void signOut() {
-    print("sign out");
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  void signOut() async {
+    try {
+      Amplify.Auth.signOut();
+      (await _prefs).remove('userId');
+      context.push("/auth/login");
+    } on AuthException catch (e) {
+      safePrint("$e");
+    }
   }
 
   @override

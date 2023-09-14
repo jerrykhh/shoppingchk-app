@@ -21,41 +21,40 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
   void initState() {
     super.initState();
     //queryShop(widget.id).then((value) => setState(() => _shop = value));
-    // _shop = Shop(
-    //     name: "nameasdfadfasdf0923rjoidfjasdklfj0392dfghdfghdfghdfghfdgj",
-    //     address: "address",
-    //     available: true);
+    setState(() {
+      //_shop = Shop(
+      //    name: "nameasdfadfasdf0923rjoidfjasdklfj0392dfghdfghdfghdfghfdgj",
+      //    address: "address",
+      //    available: true);
 
-    Amplify.DataStore.query(Shop.classType, where: Shop.ID.eq(widget.id))
-        .then((shop) {
-      _shop = shop.first;
-      _comment = shop.first.Comments ?? [];
+      Amplify.DataStore.query(Shop.classType, where: Shop.ID.eq(widget.id))
+          .then((shop) {
+        _shop = shop.first;
+        _comment = shop.first.Comments ?? [];
+      });
+
+      // _comment = [
+      //   Comment(
+      //       userId: "1",
+      //       description: "description",
+      //       rate: CommentRate.NEUTRAL,
+      //       approved: true,
+      //       shopID: "123213312123312312312"),
+      //   Comment(
+      //       userId: "1",
+      //       description:
+      //           "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
+      //       rate: CommentRate.GOOD,
+      //       approved: true,
+      //       shopID: "123213312123312312312"),
+      //   Comment(
+      //       userId: "1",
+      //       description: "description",
+      //       rate: CommentRate.NEGATIVE,
+      //       approved: true,
+      //       shopID: "123213312123312312312"),
+      // ];
     });
-
-    //  _comment = [
-    //   Comment(
-    //       userId: "1",
-    //       description: "description",
-    //       rate: CommentRate.NEUTRAL,
-    //       approved: true,
-    //       User: User(username: "username", icon: "icon"),
-    //       shopID: "123213312123312312312"),
-    //   Comment(
-    //       userId: "1",
-    //       description:
-    //           "descridsfgdsfgsdfpgjsdfiogjdfiogjsdfogkjsdfokgjdfskogjsdfkogjsdfkgjdsfkgjskdlfgjsdgkldsfogjsdfogijsdfokgjsdfkogjsdfkogjsdfkption",
-    //       rate: CommentRate.GOOD,
-    //       approved: true,
-    //       User: User(username: "username", icon: "icon"),
-    //       shopID: "123213312123312312312"),
-    //   Comment(
-    //       userId: "1",
-    //       description: "description",
-    //       rate: CommentRate.NEGATIVE,
-    //       approved: true,
-    //       User: User(username: "username", icon: "icon"),
-    //       shopID: "123213312123312312312"),
-    // ];
   }
 
   AppBar _appbar(String title) {
@@ -195,7 +194,8 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
           color: Colors.white,
           height: 60.0,
           child: FilledButton(
-              onPressed: () => context.go("/shop/${widget.id}/request"),
+              onPressed: () => context.go("/shop/${widget.id}/request",
+                  extra: {'shopID': _shop.id}),
               style: FilledButton.styleFrom(
                 backgroundColor: Colors.black,
                 minimumSize: const Size.fromHeight(40),

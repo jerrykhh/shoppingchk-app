@@ -51,7 +51,8 @@ class CommentRequestPage extends RequestPage {
   }
 
   @override
-  State<RequestPage> createState() => _CommentRequestPageState();
+  RequestPageState<CommentRequestPage> createState() =>
+      _CommentRequestPageState();
 }
 
 class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
@@ -59,6 +60,8 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
   final TextEditingController _descriptionController = TextEditingController();
   final Localization _localization = Localization.instance;
   final ImagePicker _imagePicker = ImagePicker();
+  CommentRate _rate = CommentRate.NEUTRAL;
+
   List<XFile> _imageFileList = [];
   // CommentRate rate;
 
@@ -70,6 +73,10 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
     } on PlatformException catch (e) {
       safePrint("pick image failed $e");
     }
+  }
+
+  void _changeCommentRate(CommentRate rate) {
+    setState(() => _rate = rate);
   }
 
   void removeIdxImageFile(int index) {
@@ -84,6 +91,110 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
       Container(
         margin: const EdgeInsets.only(bottom: 10.0),
         child: Text(_localization.get(context).commentRequestTitleDescription),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15.0),
+        child: Flex(
+          direction: Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+                flex: 1,
+                child: InkWell(
+                    onTap: () => _changeCommentRate(CommentRate.NEGATIVE),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      decoration: BoxDecoration(
+                        color: (_rate == CommentRate.NEGATIVE)
+                            ? Colors.black
+                            : Colors.white,
+                        border: const Border(
+                            top: BorderSide(
+                              width: 2.0,
+                            ),
+                            left: BorderSide(
+                              width: 2.0,
+                            ),
+                            right: BorderSide(width: 1.0),
+                            bottom: BorderSide(
+                              width: 2.0,
+                            )),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(2),
+                          bottomLeft: Radius.circular(2),
+                        ),
+                      ),
+                      child: Text(
+                        _localization.get(context).commentRequestNegative,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: (_rate == CommentRate.NEGATIVE)
+                                ? Colors.white
+                                : Colors.black),
+                      ),
+                    ))),
+            Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: () => _changeCommentRate(CommentRate.NEUTRAL),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 20.0),
+                    decoration: BoxDecoration(
+                      color: (_rate == CommentRate.NEUTRAL)
+                          ? Colors.black
+                          : Colors.white,
+                      border: const Border(
+                          top: BorderSide(width: 2.0, color: Colors.black),
+                          left: BorderSide(width: 0, color: Colors.black),
+                          right: BorderSide(width: 0),
+                          bottom: BorderSide(width: 2.0, color: Colors.black)),
+                    ),
+                    child: Text(
+                      _localization.get(context).commentRequestNeutral,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: (_rate == CommentRate.NEUTRAL)
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                  ),
+                )),
+            Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: () => _changeCommentRate(CommentRate.GOOD),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 20.0),
+                    decoration: BoxDecoration(
+                      color: (_rate == CommentRate.GOOD)
+                          ? Colors.black
+                          : Colors.white,
+                      border: const Border(
+                          top: BorderSide(width: 2.0),
+                          left: BorderSide(width: 1.0),
+                          right: BorderSide(width: 2.0),
+                          bottom: BorderSide(width: 2.0)),
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(2),
+                        bottomRight: Radius.circular(2),
+                      ),
+                    ),
+                    child: Text(
+                      _localization.get(context).commentRequestGoodRate,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: (_rate == CommentRate.GOOD)
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+                )),
+          ],
+        ),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -198,12 +309,12 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
             ),
             onPressed: () {
               if ((formKey.currentState as FormState).validate()) {
-                widget.widget.handleCommentCreate(
-                  userId: userId,
-                  title: _titleController.text.trim(),
-                  description: _descriptionController.text.trim(),
-                  images: _imageFileList,
-                );
+                widget.handleCommentCreate(
+                    userId: userId,
+                    title: _titleController.text.trim(),
+                    description: _descriptionController.text.trim(),
+                    images: _imageFileList,
+                    rate: _rate);
               }
             },
           )),

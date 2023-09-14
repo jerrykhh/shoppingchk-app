@@ -44,7 +44,10 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
               GoRoute(
                 path: "request",
                 name: "Shop Comment Request",
-                builder: (context, state) => const RequestOptionPage(q: "2"),
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>;
+                  return RequestOptionPage(q: "2", params: extra);
+                },
               ),
               GoRoute(
                   path: "comment/:cid",
@@ -55,8 +58,10 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
         GoRoute(
           path: "request/:q",
           name: "Request",
-          builder: (context, state) =>
-              RequestOptionPage(q: state.pathParameters['q']!),
+          builder: (context, state) => RequestOptionPage(
+            q: state.pathParameters['q']!,
+            params: state.extra as Map<String, dynamic>,
+          ),
           redirect: (context, state) => _authRedirect(context, state),
         ),
         GoRoute(

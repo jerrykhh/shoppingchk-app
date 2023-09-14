@@ -1,16 +1,16 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class RequestPage<T> extends StatefulWidget {
+abstract class RequestPage extends StatefulWidget {
   const RequestPage({super.key});
-  T get widget => this.widget;
 }
 
-abstract class RequestPageState<T> extends State<RequestPage<T>> {
+abstract class RequestPageState<T extends RequestPage> extends State<T> {
   final GlobalKey _formKey = GlobalKey<FormState>();
-  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   late final String _userId;
 
@@ -23,12 +23,12 @@ abstract class RequestPageState<T> extends State<RequestPage<T>> {
   }
 
   Future<void> _getUserId() async {
-    // final SharedPreferences prefs = await _prefs;
-    // final String? userId = prefs.getString('userId');
-    final userId = (await Amplify.Auth.getCurrentUser()).userId;
+    final SharedPreferences prefs = await _prefs;
+    final String? userId = prefs.getString('userId');
+    // final userId = (await Amplify.Auth.getCurrentUser()).userId;
 
     setState(() {
-      _userId = userId;
+      _userId = "";
     });
   }
 

@@ -61,18 +61,23 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     getGEOShopList();
 
-    // orginalShopList = [
-    //   Shop(
-    //       id: "123123123id",
-    //       name: "test",
-    //       address: "testsetsetatesatset",
-    //       available: true),
-    //   Shop(
-    //       id: "123123123id",
-    //       name: "test",
-    //       address: "testsetsetatesatset",
-    //       available: true)
-    // ];
+    //setState(() {
+    //  shops = [
+    //    Shop(
+    //        id: "123123123id",
+    //        name: "test",
+    //        address: "testsetsetatesatset",
+    //        available: true),
+    //    Shop(
+    //        id: "123123123id",
+    //        name: "test",
+    //        address: "testsetsetatesatset",
+    //        available: true)
+    //  ];
+
+    //  orginalShopList = List.from(shops);
+    //  isLoading = false;
+    //});
   }
 
   @override

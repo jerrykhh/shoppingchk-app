@@ -5,9 +5,8 @@ import 'package:dart_geohash/dart_geohash.dart';
 
 class GEOLocation {
   GEOLocation._privateConstructor();
-  static final GEOLocation _locationPermission =
-      GEOLocation._privateConstructor();
-  static GEOLocation get instasnce => _locationPermission;
+  static final GEOLocation _geoLocation = GEOLocation._privateConstructor();
+  static GEOLocation get instasnce => _geoLocation;
   bool? _isEnable;
   final geoHasher = GeoHasher();
 

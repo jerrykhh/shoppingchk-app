@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/pages/request/abs_request.dart';
+import 'package:shoppingchk/tools/localization.dart';
 
 class ShopRequestPage extends RequestPage {
   const ShopRequestPage({super.key});
@@ -17,6 +18,7 @@ class _ShopRequestState extends RequestPageState {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final Localization localization = Localization.instance;
 
   void _handleShopCreateRequest() async {
     Amplify.DataStore.save(Request(
@@ -32,24 +34,24 @@ class _ShopRequestState extends RequestPageState {
     return super.structure(children: [
       Container(
         margin: const EdgeInsets.only(bottom: 10.0),
-        child: const Text(
-            "This form for request new Shop, please provide details about the shop."),
+        child: Text(localization.get(context).shopRequestTitle),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: TextFormField(
             autofocus: true,
             controller: _nameController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black)),
-              hintText: "Shop name",
-              labelText: "Shop name",
+              hintText: localization.get(context).shopRequestShopTextFieldLabel,
+              labelText:
+                  localization.get(context).shopRequestShopTextFieldLabel,
             ),
             validator: (value) {
               return value!.trim().isNotEmpty
                   ? null
-                  : "Shop name Cannot be Empty";
+                  : localization.get(context).shopRequestShopTextFieldErrorMes;
             }),
       ),
       Padding(
@@ -57,16 +59,21 @@ class _ShopRequestState extends RequestPageState {
         child: TextFormField(
             autofocus: true,
             controller: _addressController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black)),
-              hintText: "Please give a detail address",
-              labelText: "Address",
+              hintText:
+                  localization.get(context).shopRequestShopAddressTextFieldHint,
+              labelText: localization
+                  .get(context)
+                  .shopRequestShopAddressTextFieldLabel,
             ),
             validator: (value) {
               return value!.trim().isNotEmpty
                   ? null
-                  : "Address Cannot be Empty";
+                  : localization
+                      .get(context)
+                      .shopRequestShopAddressTextFieldErrorMes;
             }),
       ),
       Padding(
@@ -76,10 +83,12 @@ class _ShopRequestState extends RequestPageState {
           autofocus: true,
           keyboardType: TextInputType.multiline,
           controller: _descriptionController,
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(
+          decoration: InputDecoration(
+              border: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black)),
-              labelText: "Description/Remark (optional)",
+              labelText: localization
+                  .get(context)
+                  .shopRequestShopDescriptionTextFieldLabel,
               alignLabelWithHint: true),
         ),
       ),
@@ -93,9 +102,9 @@ class _ShopRequestState extends RequestPageState {
                 borderRadius: BorderRadius.circular(3),
               ),
             ),
-            child: const Text(
-              "Submit",
-              style: TextStyle(fontWeight: FontWeight.w500),
+            child: Text(
+              localization.get(context).btnSubmit,
+              style: const TextStyle(fontWeight: FontWeight.w500),
             ),
             onPressed: () {
               if ((formKey.currentState as FormState).validate()) {

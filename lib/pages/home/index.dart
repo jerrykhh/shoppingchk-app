@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/tools/geo_location.dart';
+import 'package:shoppingchk/tools/localization.dart';
 import 'package:shoppingchk/widget/shop_item.dart';
 import 'dart:async';
 
@@ -17,6 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchQueryController = TextEditingController();
+  final Localization localization = Localization.instance;
+
   List<Shop> shops = [];
   List<Shop> orginalShopList = [];
   late Position geoPosition;
@@ -135,9 +138,9 @@ class _HomePageState extends State<HomePage> {
             TextField(
               onChanged: (value) => searchShop(value.trim()),
               controller: _searchQueryController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 focusColor: Colors.black,
-                hintText: 'Please Search here...',
+                hintText: localization.get(context).placeholderSearch,
               ),
             ),
             Padding(
@@ -149,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return ShopItem(shop: shops[index]);
                       })
-                  : Text("loading"),
+                  : const Text("loading"),
             ),
           ],
         ));

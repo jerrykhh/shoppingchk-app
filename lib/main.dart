@@ -9,6 +9,8 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/routes/router.dart';
+import 'package:shoppingchk/tools/localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // Generated in previous step
 import 'amplifyconfiguration.dart';
@@ -17,7 +19,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await _configureAmplify();
-  runApp(const ShoppingChkApp());
+  runApp(ShoppingChkApp());
 }
 
 Future<void> _configureAmplify() async {
@@ -42,13 +44,42 @@ Future<void> _configureAmplify() async {
 }
 
 class ShoppingChkApp extends StatefulWidget {
-  const ShoppingChkApp({super.key});
+  final Localization localization = Localization.instance;
+  ShoppingChkApp({super.key});
 
   @override
   State<ShoppingChkApp> createState() => _ShoppingChkAppState();
+  static void setLocale(BuildContext content, String langCode) {
+    _ShoppingChkAppState? state =
+        content.findAncestorStateOfType<_ShoppingChkAppState>();
+    state?.setLocale(langCode);
+  }
 }
 
 class _ShoppingChkAppState extends State<ShoppingChkApp> {
+  Locale? _locale;
+
+  setLocale(String langCode) async {
+    Locale locale = await widget.localization.setLocale(langCode);
+    safePrint(locale.toString());
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  initLocale() async {
+    Locale locale = await widget.localization.getLocale();
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    initLocale();
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -63,13 +94,16 @@ class _ShoppingChkAppState extends State<ShoppingChkApp> {
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
+        GlobalCupertinoLocalizations.delegate,
+        AppLocalizations.delegate
       ],
-      supportedLocales: const [
-        Locale('en'), // English
-        // Locale.fromSubtags(languageCode: 'zh', countryCode: 'HK'), // Chinese
-        Locale('zh')
-      ],
+      locale: _locale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      // supportedLocales: const [
+      //   Locale('en'), // English
+      //   // Locale.fromSubtags(languageCode: 'zh', countryCode: 'HK'), // Chinese
+      //   Locale('zh')
+      // ],
       theme: ThemeData(
         // This is the theme of your application.
         //

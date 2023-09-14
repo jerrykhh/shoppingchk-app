@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
+import 'package:shoppingchk/tools/localization.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final Localization localization = Localization.instance;
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   void signOut() async {
@@ -40,45 +42,45 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           ListTile(
             onTap: () => print("test"),
-            title: const Text(
-              "Account",
-              style: TextStyle(color: Colors.black),
+            title: Text(
+              localization.get(context).profileTitleAccount,
+              style: const TextStyle(color: Colors.black),
+            ),
+            contentPadding: EdgeInsets.zero,
+            shape: const Border(bottom: BorderSide(width: 0.5)),
+          ),
+          ListTile(
+            onTap: () => context.go("/profile/set/lang"),
+            title: Text(
+              localization.get(context).profileTitleLanguages,
+              style: const TextStyle(color: Colors.black),
             ),
             contentPadding: EdgeInsets.zero,
             shape: const Border(bottom: BorderSide(width: 0.5)),
           ),
           ListTile(
             onTap: () => print("test"),
-            title: const Text(
-              "Languages",
-              style: TextStyle(color: Colors.black),
+            title: Text(
+              localization.get(context).profileTitleContentSettings,
+              style: const TextStyle(color: Colors.black),
             ),
             contentPadding: EdgeInsets.zero,
             shape: const Border(bottom: BorderSide(width: 0.5)),
           ),
           ListTile(
             onTap: () => print("test"),
-            title: const Text(
-              "Content Settings",
-              style: TextStyle(color: Colors.black),
-            ),
-            contentPadding: EdgeInsets.zero,
-            shape: const Border(bottom: BorderSide(width: 0.5)),
-          ),
-          ListTile(
-            onTap: () => print("test"),
-            title: const Text(
-              "Supports",
-              style: TextStyle(color: Colors.black),
+            title: Text(
+              localization.get(context).profileTitleSupports,
+              style: const TextStyle(color: Colors.black),
             ),
             contentPadding: EdgeInsets.zero,
             shape: const Border(bottom: BorderSide(width: 0.5)),
           ),
           ListTile(
             onTap: () => signOut(),
-            title: const Text(
-              "Sign Out",
-              style: TextStyle(color: Colors.black45),
+            title: Text(
+              localization.get(context).profileTitleSignOut,
+              style: const TextStyle(color: Colors.black45),
             ),
             contentPadding: EdgeInsets.zero,
             shape: const Border(bottom: BorderSide(width: 0.5)),

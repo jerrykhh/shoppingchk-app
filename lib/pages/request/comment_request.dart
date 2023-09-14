@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/pages/request/abs_request.dart';
 import 'package:path/path.dart' as p;
+import 'package:shoppingchk/tools/localization.dart';
 
 class CommentRequestPage extends RequestPage {
   final String shopID;
@@ -56,6 +57,7 @@ class CommentRequestPage extends RequestPage {
 class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final Localization _localization = Localization.instance;
   final ImagePicker _imagePicker = ImagePicker();
   List<XFile> _imageFileList = [];
   // CommentRate rate;
@@ -81,19 +83,22 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
     return super.structure(children: [
       Container(
         margin: const EdgeInsets.only(bottom: 10.0),
-        child:
-            const Text("Please let me know whats your comment about the shop"),
+        child: Text(_localization.get(context).commentRequestTitleDescription),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: TextFormField(
             autofocus: true,
             controller: _titleController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black)),
-              hintText: "Title",
-              labelText: "Title",
+              hintText: _localization
+                  .get(context)
+                  .commentRequestCommentTitleTextFieldLabel,
+              labelText: _localization
+                  .get(context)
+                  .commentRequestCommentTitleTextFieldLabel,
             )),
       ),
       Padding(
@@ -103,15 +108,19 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
           autofocus: true,
           keyboardType: TextInputType.multiline,
           controller: _descriptionController,
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(
+          decoration: InputDecoration(
+              border: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black)),
-              labelText: "Description",
+              labelText: _localization
+                  .get(context)
+                  .commentRequestCommentDescriptionTextFieldLable,
               alignLabelWithHint: true),
           validator: (value) {
             return value!.trim().isNotEmpty
                 ? null
-                : "Description Cannot be Empty";
+                : _localization
+                    .get(context)
+                    .commentRequestCommentDescriptionTextFieldErrorMes;
           },
         ),
       ),
@@ -123,9 +132,9 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0))),
           onPressed: () => pickImage(),
-          child: const Text(
-            "Pick a picture (Optional)",
-            style: TextStyle(color: Colors.black),
+          child: Text(
+            _localization.get(context).commentRequestCommentImagePickerLabel,
+            style: const TextStyle(color: Colors.black),
           ),
         ),
       ),

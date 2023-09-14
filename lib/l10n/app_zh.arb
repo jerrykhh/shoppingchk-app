@@ -1,5 +1,6 @@
 {
     "@@locale": "zh",
+    "appBarLanguageSettingPageTitle": "語言",
     "placeholderSearch": "搜尋...",
     "@placeholderSearch": {
         "description": "placeholder for Search"
@@ -39,5 +40,11 @@
     "commentRequestCommentTitleTextFieldLabel": "標題(可選)",
     "commentRequestCommentDescriptionTextFieldLable": "描述",
     "commentRequestCommentDescriptionTextFieldErrorMes": "描述不能為空",
-    "commentRequestCommentImagePickerLabel": "選擇圖片（可選）"
+    "commentRequestCommentImagePickerLabel": "選擇圖片（可選）",
+    "commentRequestTitleDescription": "請告訴我您對本店的評價",
+    "profileTitleAccount": "帳戶",
+    "profileTitleLanguages": "語言",
+    "profileTitleContentSettings": "內容設置",
+    "profileTitleSupports": "支援",
+    "profileTitleSignOut": "登出"
 }

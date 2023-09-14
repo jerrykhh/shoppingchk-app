@@ -10,6 +10,7 @@ import 'package:shoppingchk/pages/auth/pwd_reset.dart';
 import 'package:shoppingchk/pages/auth/register.dart';
 import 'package:shoppingchk/pages/auth/verify.dart';
 import 'package:shoppingchk/pages/comment/detail.dart';
+import 'package:shoppingchk/pages/profile/setting/languages.dart';
 import 'package:shoppingchk/pages/request/index.dart';
 import 'package:shoppingchk/pages/shop/detail.dart';
 
@@ -17,13 +18,13 @@ Future<String?> _authRedirect(BuildContext context, GoRouterState state) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? user = prefs.getString('user');
 
-  if (user == null) {
-    return "/auth/login";
-  }
-
-  if ((await Amplify.Auth.fetchAuthSession()).isSignedIn) {
+  if (user != null) {
     return null;
   }
+
+  // if ( (await Amplify.Auth.fetchAuthSession()).isSignedIn) {
+  //   return null;
+  // }
 
   return "/auth/login";
 }
@@ -85,6 +86,10 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
             String emailAddress = state.extra as String;
             return ResetPasswordPage(emailAddress: emailAddress);
           },
-        )
+        ),
+        GoRoute(
+            path: "profile/set/lang",
+            name: "Set Languages",
+            builder: (context, state) => const LanguagesSettingPage()),
       ]),
 ]);

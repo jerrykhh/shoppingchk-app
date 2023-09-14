@@ -1,5 +1,6 @@
 {
     "@@locale": "en",
+    "appBarLanguageSettingPageTitle": "Language",
     "placeholderSearch": "Please Search here...",
     "@placeholderSearch": {
         "description": "placeholder for Search"
@@ -39,5 +40,11 @@
     "commentRequestCommentTitleTextFieldLabel": "Title (Optional)",
     "commentRequestCommentDescriptionTextFieldLable": "Description",
     "commentRequestCommentDescriptionTextFieldErrorMes": "Description Cannot be Empty",
-    "commentRequestCommentImagePickerLabel": "Pick a picture (Optional)"
+    "commentRequestCommentImagePickerLabel": "Pick a picture (Optional)",
+    "commentRequestTitleDescription": "Please let me know whats your comment about the shop",
+    "profileTitleAccount": "Account",
+    "profileTitleLanguages": "Languages",
+    "profileTitleContentSettings": "Content Settings",
+    "profileTitleSupports": "Supports",
+    "profileTitleSignOut": "Sign Out"
 }

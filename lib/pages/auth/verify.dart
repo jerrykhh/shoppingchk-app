@@ -1,7 +1,9 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
+import 'package:shoppingchk/tools/localization.dart';
 
 class VerifyPage extends StatefulWidget {
   final String emailAddress;
@@ -12,6 +14,7 @@ class VerifyPage extends StatefulWidget {
 }
 
 class _VerifyPageState extends State<VerifyPage> {
+  final Localization _localization = Localization.instance;
   final GlobalKey _formKey = GlobalKey<FormState>();
   final TextEditingController _verifyCodeController = TextEditingController();
   bool _isFormSubbmited = false;
@@ -19,15 +22,17 @@ class _VerifyPageState extends State<VerifyPage> {
   String errorMessage = "";
 
   void _handleVerifyCode() async {
-    SignUpResult result = await Amplify.Auth.confirmSignUp(
-        username: widget.emailAddress,
-        confirmationCode: _verifyCodeController.text.trim());
-
-    if (result.isSignUpComplete) {
-      context.push("/auth/login",
-          extra: ConfirmedSignUpRestult(widget.emailAddress, result));
-    } else {
+    try {
+      SignUpResult result = await Amplify.Auth.confirmSignUp(
+          username: widget.emailAddress,
+          confirmationCode: _verifyCodeController.text.trim());
+      if (result.isSignUpComplete) {
+        context.replace("/auth/login",
+            extra: ConfirmedSignUpRestult(widget.emailAddress, result));
+      }
+    } on CodeMismatchException catch (e) {
       setState(() {
+        safePrint(e);
         _isFormSubbmited = false;
         errorMessage = "Incorrect Verify Code.";
       });
@@ -39,7 +44,7 @@ class _VerifyPageState extends State<VerifyPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Verify Your Email"),
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
               onPressed: () => context.pop(),
@@ -99,9 +104,9 @@ class _VerifyPageState extends State<VerifyPage> {
                                     }
                                   : null,
                               child: (!_isFormSubbmited)
-                                  ? const Text(
-                                      "Login",
-                                      style: TextStyle(
+                                  ? Text(
+                                      _localization.get(context).btnSubmit,
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     )
                                   : Container(

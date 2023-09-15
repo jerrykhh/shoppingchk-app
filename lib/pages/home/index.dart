@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       geoHash = null;
     }
 
-    Amplify.DataStore.query(Shop.classType,
+    await Amplify.DataStore.query(Shop.classType,
         where: (geoHash != null)
             ? Shop.AVAILABLE.eq(true).and(Shop.GEOHASH.beginsWith(geoHash))
             : Shop.AVAILABLE.eq(true),
@@ -50,9 +50,27 @@ class _HomePageState extends State<HomePage> {
         ]).then((shopList) {
       setState(() {
         shops = shopList;
-        isLoading = false;
+        if (shopList.isNotEmpty) {
+          isLoading = false;
+        }
       });
     });
+
+    if (geoHash == null && shops.isEmpty) {
+      await Amplify.DataStore.query(Shop.classType,
+          where: Shop.AVAILABLE.eq(true),
+          pagination: const QueryPagination(limit: 20),
+          sortBy: [
+            QuerySortBy(
+                field: Shop.ID.fieldName, order: QuerySortOrder.descending)
+          ]).then((shopList) {
+        setState(() {
+          shops = shopList;
+          isLoading = false;
+        });
+      });
+    }
+
     orginalShopList = List.from(shops);
   }
 
@@ -87,7 +105,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void searchShop(String searchValue) {
+  void searchShop(String searchValue) async {
     if (searchValue.isEmpty) {
       setState(() {
         shops = orginalShopList;
@@ -109,10 +127,11 @@ class _HomePageState extends State<HomePage> {
 
     _latestInputTime = DateTime.now();
     _latestWaitFetchFuture =
-        Timer(const Duration(seconds: _searchFetchingSeconds), () {
-      Amplify.DataStore.query(Shop.classType,
-              where: Shop.AVAILABLE.eq(true).and(Shop.NAME.eq(searchValue)))
-          .then((shopList) => shops = shopList);
+        Timer(const Duration(seconds: _searchFetchingSeconds), () async {
+      List<Shop> shopList = await Amplify.DataStore.query(Shop.classType,
+          where:
+              Shop.AVAILABLE.eq(true).and(Shop.NAME.beginsWith(searchValue)));
+      setState(() => shops = shopList);
     });
   }
 

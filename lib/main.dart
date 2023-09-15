@@ -1,3 +1,4 @@
+import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,10 +26,11 @@ void main() async {
 Future<void> _configureAmplify() async {
   // Add any Amplify plugins you want to use
   final authPlugin = AmplifyAuthCognito();
+  final apiPlugin = AmplifyAPI(modelProvider: ModelProvider.instance);
   final datastorePlugin =
       AmplifyDataStore(modelProvider: ModelProvider.instance);
   final s3Plugin = AmplifyStorageS3();
-  await Amplify.addPlugins([datastorePlugin, authPlugin, s3Plugin]);
+  await Amplify.addPlugins([authPlugin, datastorePlugin, apiPlugin, s3Plugin]);
 
   // You can use addPlugins if you are going to be adding multiple plugins
   // await Amplify.addPlugins([authPlugin, analyticsPlugin]);

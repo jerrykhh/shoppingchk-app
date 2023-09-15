@@ -60,7 +60,7 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
           name: "Request",
           builder: (context, state) => RequestOptionPage(
             q: state.pathParameters['q']!,
-            params: state.extra as Map<String, dynamic>,
+            params: state.extra as Map<String, dynamic>?,
           ),
           redirect: (context, state) => _authRedirect(context, state),
         ),

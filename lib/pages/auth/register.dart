@@ -12,7 +12,7 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-List<String> genderList = ["M", "F"];
+const List<String> genderList = ["M", "F"];
 
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey _formKey = GlobalKey<FormState>();
@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _pwdController = TextEditingController();
   final TextEditingController _pwdChkController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   String errorMessage = "";
   bool _isDuplciatedUsername = false;
@@ -41,7 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _handleSignUpResult(SignUpResult result) async {
     switch (result.nextStep.signUpStep) {
       case AuthSignUpStep.confirmSignUp:
-        context.go("/auth/verify");
+        context.go("/auth/verify", extra: _emailController.text.trim());
         // final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
         // _handleCodeDelivery(codeDeliveryDetails);
         break;
@@ -56,22 +57,25 @@ class _RegisterPageState extends State<RegisterPage> {
     final username = _usernameController.text.trim();
     final password = _pwdChkController.text;
     final gender = _genderController.text.trim();
+    final name = _nameController.text.trim();
 
     try {
       final userAttrubutes = <AuthUserAttributeKey, String>{
+        AuthUserAttributeKey.preferredUsername: username,
         AuthUserAttributeKey.email: email,
-        AuthUserAttributeKey.gender: gender
+        AuthUserAttributeKey.gender: gender,
+        AuthUserAttributeKey.name: name,
       };
 
       final result = await Amplify.Auth.signUp(
-          username: username,
+          username: email,
           password: password,
           options: SignUpOptions(userAttributes: userAttrubutes));
 
       _handleSignUpResult(result);
     } on AuthException catch (e) {
       setState(() {
-        errorMessage = "$e";
+        errorMessage = e.message;
       });
     }
   }
@@ -136,7 +140,24 @@ class _RegisterPageState extends State<RegisterPage> {
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15.0),
                       child: TextFormField(
+                        autofocus: true,
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          labelText: "Name",
+                        ),
+                        validator: (value) => value == null || value.isEmpty
+                            ? "Name is required"
+                            : null,
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      child: TextFormField(
                           autofocus: true,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          obscureText: true,
                           controller: _pwdController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
@@ -150,6 +171,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.symmetric(vertical: 15.0),
                       child: TextFormField(
                           autofocus: true,
+                          enableSuggestions: false,
+                          obscureText: true,
+                          autocorrect: false,
                           controller: _pwdChkController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
@@ -188,7 +212,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         child: const Text(
-                          "Login",
+                          "Submit",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         onPressed: () async {

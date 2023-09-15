@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _handleSignInResult(SignInResult result) async {
+    print(result.nextStep);
     switch (result.nextStep.signInStep) {
       case AuthSignInStep.resetPassword:
       case AuthSignInStep.confirmSignInWithNewPassword:
@@ -42,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
 
       case AuthSignInStep.confirmSignUp:
         // Resend the sign up code to the registered device.
-        context.push("/auth/verify");
+        context.replace("/auth/verify", extra: _emailController.text.trim());
         break;
 
       case AuthSignInStep.done:
@@ -53,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         //     .first;
 
         prefs.setString("user", jsonEncode(user));
+        context.pop();
 
         break;
 
@@ -88,7 +90,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _emailController.dispose();
     _pwdController.dispose();
 
@@ -116,7 +117,9 @@ class _LoginPageState extends State<LoginPage> {
           child: RWDLayout(
             child: ListView(children: [
               const Padding(padding: EdgeInsets.only(top: 60.0)),
-              Image.asset("assets/shoppingchk_logo.png"),
+              SizedBox(
+                  height: 100,
+                  child: Image.asset("assets/shoppingchk_logo.png")),
               const Text(
                 "Login",
                 textAlign: TextAlign.center,
@@ -177,9 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                                 errorMessage = "";
                                 _isSubmittedLoginForm = true;
                               });
-                              if (await _handleLogin()) {
-                                context.pop();
-                              }
+                              await _handleLogin();
                             }
                           }
                         : null,

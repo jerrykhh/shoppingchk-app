@@ -4,7 +4,7 @@ import 'package:shoppingchk/pages/request/form_reg.dart';
 
 class RequestOptionPage extends StatefulWidget {
   final String q;
-  final Map<String, dynamic> params;
+  final Map<String, dynamic>? params;
   const RequestOptionPage({super.key, required this.q, this.params = const {}});
 
   @override
@@ -21,7 +21,7 @@ class _RequestOptionPageState extends State<RequestOptionPage> {
     Widget selectedWidget;
     if (reqFormRegister[widget.q] is CommentRequestPage Function(String)) {
       // The selected widget is CommentRequestPage
-      selectedWidget = reqFormRegister[widget.q]!(widget.params['shopID']);
+      selectedWidget = reqFormRegister[widget.q]!(widget.params!['shopID']);
     } else {
       selectedWidget = reqFormRegister[widget.q]!();
     }

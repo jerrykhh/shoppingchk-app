@@ -2,6 +2,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
+import 'package:shoppingchk/widget/form_component.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class RequestPage extends StatefulWidget {
@@ -11,6 +12,7 @@ abstract class RequestPage extends StatefulWidget {
 abstract class RequestPageState<T extends RequestPage> extends State<T> {
   final GlobalKey _formKey = GlobalKey<FormState>();
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  RequestFormState formState = RequestFormState.already;
 
   late final String _userId;
 

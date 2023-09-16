@@ -106,11 +106,13 @@ class _LoginPageState extends State<LoginPage> {
           surfaceTintColor: Colors.transparent,
           forceMaterialTransparency: false,
           actions: [
-            IconButton(
-                iconSize: 28,
-                onPressed: () => context.pop(),
-                padding: const EdgeInsets.only(right: 16.0),
-                icon: const Icon(Icons.close_rounded))
+            if (context.canPop()) ...[
+              IconButton(
+                  iconSize: 28,
+                  onPressed: () => context.pop(),
+                  padding: const EdgeInsets.only(right: 16.0),
+                  icon: const Icon(Icons.close_rounded))
+            ]
           ]),
       body: Form(
           key: _formKey,
@@ -141,7 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                         : null),
               ),
               TextFormField(
-                  obscureText: false,
+                  obscureText: true,
+                  autocorrect: false,
                   controller: _pwdController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(

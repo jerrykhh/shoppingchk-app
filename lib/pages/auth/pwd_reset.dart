@@ -70,6 +70,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: TextFormField(
                 autofocus: true,
+                obscureText: true,
+                autocorrect: false,
                 controller: _pwdConfirmController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
@@ -84,6 +86,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: TextFormField(
                 autofocus: true,
+                obscureText: true,
+                autocorrect: false,
                 controller: _pwdConfirmController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(

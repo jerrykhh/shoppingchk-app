@@ -25,12 +25,12 @@ abstract class RequestPageState<T extends RequestPage> extends State<T> {
   }
 
   Future<void> _getUserId() async {
-    final SharedPreferences prefs = await _prefs;
-    final String? userId = prefs.getString('userId');
-    // final userId = (await Amplify.Auth.getCurrentUser()).userId;
+    // final SharedPreferences prefs = await _prefs;
+    // final String? userId = prefs.getString('userId');
+    final userId = (await Amplify.Auth.getCurrentUser()).userId;
 
     setState(() {
-      _userId = "";
+      _userId = userId;
     });
   }
 

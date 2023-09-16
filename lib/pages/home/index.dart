@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
         ]).then((shopList) {
       setState(() {
         shops = shopList;
+        orginalShopList = shopList;
         if (shopList.isNotEmpty) {
           isLoading = false;
         }
@@ -66,12 +67,11 @@ class _HomePageState extends State<HomePage> {
           ]).then((shopList) {
         setState(() {
           shops = shopList;
+          orginalShopList = shopList;
           isLoading = false;
         });
       });
     }
-
-    orginalShopList = List.from(shops);
   }
 
   @override
@@ -105,34 +105,33 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void searchShop(String searchValue) async {
+  void search(String searchValue) async {
     if (searchValue.isEmpty) {
+      _latestWaitFetchFuture!.cancel();
       setState(() {
         shops = orginalShopList;
       });
+    } else {
+      setState(() {
+        shops = [];
+      });
 
-      return;
-    }
-
-    setState(() {
-      shops = [];
-    });
-
-    if (_latestInputTime != null && _latestWaitFetchFuture != null) {
-      if (DateTime.now().second - _latestInputTime!.second <
-          _searchFetchingSeconds) {
-        _latestWaitFetchFuture!.cancel();
+      if (_latestInputTime != null && _latestWaitFetchFuture != null) {
+        if (DateTime.now().second - _latestInputTime!.second <
+            _searchFetchingSeconds) {
+          _latestWaitFetchFuture!.cancel();
+        }
       }
-    }
 
-    _latestInputTime = DateTime.now();
-    _latestWaitFetchFuture =
-        Timer(const Duration(seconds: _searchFetchingSeconds), () async {
-      List<Shop> shopList = await Amplify.DataStore.query(Shop.classType,
-          where:
-              Shop.AVAILABLE.eq(true).and(Shop.NAME.beginsWith(searchValue)));
-      setState(() => shops = shopList);
-    });
+      _latestInputTime = DateTime.now();
+      _latestWaitFetchFuture =
+          Timer(const Duration(seconds: _searchFetchingSeconds), () async {
+        List<Shop> shopList = await Amplify.DataStore.query(Shop.classType,
+            where:
+                Shop.AVAILABLE.eq(true).and(Shop.NAME.beginsWith(searchValue)));
+        setState(() => shops = shopList);
+      });
+    }
   }
 
   Widget _header() {
@@ -160,7 +159,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TextField(
-              onChanged: (value) => searchShop(value.trim()),
+              onChanged: (value) => search(value.trim()),
               controller: _searchQueryController,
               decoration: InputDecoration(
                 focusColor: Colors.black,

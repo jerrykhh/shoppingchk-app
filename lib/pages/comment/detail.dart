@@ -1,5 +1,6 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shoppingchk/layout/responsive/rwd_layout.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
 
@@ -8,20 +9,43 @@ class CommentDetailPage extends StatefulWidget {
   const CommentDetailPage({super.key, required this.id});
 
   @override
-  State<CommentDetailPage> createState() => _CommentDetailPageState();
+  State<CommentDetailPage> createState() => commentDetailPageState();
 }
 
-class _CommentDetailPageState extends State<CommentDetailPage> {
-  late Comment _comment;
+class commentDetailPageState extends State<CommentDetailPage> {
+  List<String> images = [];
+
+  Future<List<String>> convertS3ImagePath(List<String>? imagePath) async {
+    if (imagePath!.isNotEmpty) {
+      final s3ImgKey = await Future.wait(imagePath!.map((e) async {
+        try {
+          final result = await Amplify.Storage.getUrl(
+            key: e,
+          ).result;
+          return result.url.toString();
+        } on StorageException catch (e) {
+          safePrint('Could not get a downloadable URL: ${e.message}');
+        }
+      }));
+
+      return s3ImgKey.whereType<String>().toList();
+    }
+    return [];
+  }
+
+  Future<Comment> fetchComment() async {
+    Comment comment = (await Amplify.DataStore.query(Comment.classType,
+            where: Comment.ID.eq(widget.id)))
+        .first;
+
+    return comment;
+  }
 
   @override
   void initState() {
     super.initState();
 
-    Amplify.DataStore.query(Comment.classType, where: Comment.ID.eq(widget.id))
-        .then((value) => _comment = value.first);
-
-    // _comment = Comment(
+    // comment = Comment(
     //     userId: "userId",
     //     approved: true,
     //     rate: CommentRate.NEGATIVE,
@@ -42,119 +66,149 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
         appBar: AppBar(
           title: const Text("Comment"),
         ),
-        body: RWDLayout(
-            child: ListView(
-          children: [
-            Container(
-                alignment: Alignment.topLeft,
-                margin: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.only(bottom: 15.0),
-                        decoration: BoxDecoration(
-                          color: (_comment.rate == CommentRate.NEGATIVE)
-                              ? Colors.black87
-                              : (_comment.rate == CommentRate.NEUTRAL)
-                                  ? Colors.white30
-                                  : Colors.black12,
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                            _comment.rate
-                                .toString()
-                                .replaceAll("CommentRate.", ""),
-                            style: TextStyle(
-                              color: (_comment.rate == CommentRate.NEUTRAL)
-                                  ? Colors.black
-                                  : Colors.white,
-                            ))),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(_comment.title ?? "",
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                    ),
-                    Flex(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      direction: Axis.horizontal,
-                      children: [
-                        Flexible(
-                            flex: 2,
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              margin: const EdgeInsets.only(right: 20.0),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black12),
-                                  borderRadius: BorderRadius.circular(60.0)),
-                              child: const Icon(Icons.person_2_rounded),
-                              // child: (_comment.Customer!.icon.isEmpty ||
-                              //         _comment.Customer!.icon == "")
-                              //     ? const Icon(Icons.person_2_rounded)
-                              //     : Image.network(
-                              //         _comment.Customer!.icon,
-                              //         fit: BoxFit.cover,
-                              //       ),
-                            )),
-                        Flexible(
-                            flex: 8,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 10.0),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // Text(
-                                        //   _comment.Customer!.username,
-                                        //   style: const TextStyle(
-                                        //       fontSize: 14,
-                                        //       fontWeight: FontWeight.bold),
-                                        // ),
-                                        Text(
-                                          _comment.createdAt.toString(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall,
-                                        )
-                                      ]),
-                                ),
-                                Text(
-                                  _comment.description,
-                                  softWrap: true,
-                                  textAlign: TextAlign.justify,
-                                ),
-                              ],
-                            ))
-                      ],
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 30.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: _comment.images != null
-                            ? _comment.images!
-                                .map((imgPath) => Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0),
-                                    child: Image.network(
-                                      imgPath,
-                                      fit: BoxFit.cover,
-                                    )))
-                                .toList()
-                            : [],
+        body: FutureBuilder(
+          future: fetchComment(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              Comment comment = snapshot.data!;
+
+              return RWDLayout(
+                  child: ListView(
+                children: [
+                  Container(
+                      alignment: Alignment.topLeft,
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 10.0,
                       ),
-                    )
-                  ],
-                )),
-          ],
-        )));
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.only(bottom: 15.0),
+                              decoration: BoxDecoration(
+                                color: (comment.rate == CommentRate.NEGATIVE)
+                                    ? Colors.black87
+                                    : (comment.rate == CommentRate.NEUTRAL)
+                                        ? Colors.white30
+                                        : Colors.black12,
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                  comment.rate
+                                      .toString()
+                                      .replaceAll("CommentRate.", ""),
+                                  style: TextStyle(
+                                    color: (comment.rate == CommentRate.NEUTRAL)
+                                        ? Colors.black
+                                        : Colors.white,
+                                  ))),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10.0),
+                            child: Text(comment.title ?? "",
+                                textAlign: TextAlign.justify,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                          ),
+                          Flex(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            direction: Axis.horizontal,
+                            children: [
+                              Flexible(
+                                  flex: 2,
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    margin: const EdgeInsets.only(right: 20.0),
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        borderRadius:
+                                            BorderRadius.circular(60.0)),
+                                    child: const Icon(Icons.person_2_rounded),
+                                    // child: (comment.Customer!.icon.isEmpty ||
+                                    //         comment.Customer!.icon == "")
+                                    //     ? const Icon(Icons.person_2_rounded)
+                                    //     : Image.network(
+                                    //         comment.Customer!.icon,
+                                    //         fit: BoxFit.cover,
+                                    //       ),
+                                  )),
+                              Flexible(
+                                  flex: 8,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.only(bottom: 10.0),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              // Text(
+                                              //   comment.Customer!.username,
+                                              //   style: const TextStyle(
+                                              //       fontSize: 14,
+                                              //       fontWeight: FontWeight.bold),
+                                              // ),
+                                              Text(
+                                                DateFormat('yyyy-MM-dd kk:mm')
+                                                    .format(comment.createdAt!
+                                                        .getDateTimeInUtc()
+                                                        .toLocal()),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall,
+                                              )
+                                            ]),
+                                      ),
+                                      Text(
+                                        comment.description,
+                                        softWrap: true,
+                                        textAlign: TextAlign.justify,
+                                      ),
+                                    ],
+                                  ))
+                            ],
+                          ),
+                          Container(
+                              margin:
+                                  const EdgeInsets.symmetric(vertical: 30.0),
+                              child: FutureBuilder(
+                                future: convertS3ImagePath(comment.images),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    final imgs = snapshot.data;
+                                    return Column(
+                                      children: imgs!.map((e) {
+                                        return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10.0),
+                                            child: Image.network(
+                                              e,
+                                              fit: BoxFit.cover,
+                                            ));
+                                      }).toList(),
+                                    );
+                                  }
+                                  return Container(
+                                      alignment: Alignment.center,
+                                      child: const SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(),
+                                      ));
+                                },
+                              )),
+                        ],
+                      )),
+                ],
+              ));
+            }
+
+            return const CircularProgressIndicator();
+          },
+        ));
   }
 }

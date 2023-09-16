@@ -25,7 +25,7 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
 
   Future<List<Comment>> fetchComment() async {
     List<Comment> comments = (await Amplify.DataStore.query(Comment.classType,
-        where: Comment.SHOPID.eq(widget.id)));
+        where: Comment.APPROVED.eq(true).and(Comment.SHOPID.eq(widget.id))));
     return comments;
   }
 

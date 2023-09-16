@@ -14,7 +14,7 @@ import 'package:shoppingchk/pages/profile/setting/languages.dart';
 import 'package:shoppingchk/pages/request/index.dart';
 import 'package:shoppingchk/pages/shop/detail.dart';
 
-Future<String?> _authRedirect(BuildContext context, GoRouterState state) async {
+Future<String?> authRedirect(BuildContext context, GoRouterState state) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? user = prefs.getString('user');
 
@@ -62,7 +62,7 @@ final GoRouter router = GoRouter(initialLocation: "/", routes: <RouteBase>[
             q: state.pathParameters['q']!,
             params: state.extra as Map<String, dynamic>?,
           ),
-          redirect: (context, state) => _authRedirect(context, state),
+          redirect: (context, state) => authRedirect(context, state),
         ),
         GoRoute(
           path: "auth/login",

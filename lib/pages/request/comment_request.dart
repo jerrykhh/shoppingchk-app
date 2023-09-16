@@ -3,52 +3,17 @@ import 'dart:io';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shoppingchk/models/ModelProvider.dart';
 import 'package:shoppingchk/pages/request/abs_request.dart';
 import 'package:path/path.dart' as p;
 import 'package:shoppingchk/tools/localization.dart';
+import 'package:shoppingchk/widget/form_component.dart';
 
 class CommentRequestPage extends RequestPage {
   final String shopID;
   const CommentRequestPage({super.key, required this.shopID});
-
-  void handleCommentCreate(
-      {required String userId,
-      title,
-      description,
-      List<XFile> images = const [],
-      CommentRate rate = CommentRate.NEUTRAL}) async {
-    List<String> imagePaths = [];
-
-    if (images.isNotEmpty) {
-      List<String?> uploadedImagePaths =
-          await Future.wait(images.map((element) async {
-        try {
-          final uuid = UUID.getUUID();
-          final fileExtension = p.extension(element.path);
-          final key = "$shopID/$uuid$fileExtension";
-          final result = await Amplify.Storage.uploadFile(
-                  localFile: AWSFile.fromPath(element.path), key: key)
-              .result;
-          return result.uploadedItem.key;
-        } on StorageException catch (e) {
-          safePrint("Error uploading file: $e");
-        }
-        return null;
-      }));
-
-      imagePaths = uploadedImagePaths.whereType<String>().toList();
-    }
-
-    Amplify.DataStore.save(Comment(
-        userId: userId,
-        shopID: shopID,
-        rate: rate,
-        description: description,
-        images: imagePaths,
-        approved: false));
-  }
 
   @override
   RequestPageState<CommentRequestPage> createState() =>
@@ -83,6 +48,49 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
     var newImageFileList = _imageFileList;
     newImageFileList.removeAt(index);
     setState(() => _imageFileList = newImageFileList);
+  }
+
+  void handleCommentCreate(
+      {required String userId,
+      title,
+      description,
+      List<XFile> images = const [],
+      CommentRate rate = CommentRate.NEUTRAL}) async {
+    List<String> imagePaths = [];
+
+    if (images.isNotEmpty) {
+      List<String?> uploadedImagePaths =
+          await Future.wait(images.map((element) async {
+        try {
+          final uuid = UUID.getUUID();
+          final fileExtension = p.extension(element.path);
+          final key = "${widget.shopID}/$uuid$fileExtension";
+          final result = await Amplify.Storage.uploadFile(
+                  localFile: AWSFile.fromPath(element.path), key: key)
+              .result;
+          return result.uploadedItem.key;
+        } on StorageException catch (e) {
+          safePrint("Error uploading file: $e");
+        } on Exception catch (e) {
+          safePrint(e);
+        }
+        return null;
+      }));
+
+      imagePaths = uploadedImagePaths.whereType<String>().toList();
+    }
+
+    Amplify.DataStore.save(Comment(
+        userId: userId,
+        shopID: widget.shopID,
+        rate: rate,
+        title: title,
+        description: description,
+        images: imagePaths,
+        approved: false));
+
+    setState(() => formState = RequestFormState.finished);
+    Future.delayed(const Duration(seconds: 3), () => context.pop());
   }
 
   @override
@@ -295,29 +303,19 @@ class _CommentRequestPageState extends RequestPageState<CommentRequestPage> {
       ],
       Padding(
           padding: const EdgeInsets.only(top: 45),
-          child: FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: Colors.black,
-              minimumSize: const Size.fromHeight(45),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3),
-              ),
-            ),
-            child: const Text(
-              "Submit",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onPressed: () {
-              if ((formKey.currentState as FormState).validate()) {
-                widget.handleCommentCreate(
-                    userId: userId,
-                    title: _titleController.text.trim(),
-                    description: _descriptionController.text.trim(),
-                    images: _imageFileList,
-                    rate: _rate);
-              }
-            },
-          )),
+          child: SubmitButton(
+              state: formState,
+              onPressed: () {
+                if ((formKey.currentState as FormState).validate()) {
+                  setState(() => formState = RequestFormState.processing);
+                  handleCommentCreate(
+                      userId: userId,
+                      title: _titleController.text.trim(),
+                      description: _descriptionController.text.trim(),
+                      images: _imageFileList,
+                      rate: _rate);
+                }
+              })),
     ]);
   }
 }

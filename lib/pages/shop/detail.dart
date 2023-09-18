@@ -75,54 +75,64 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
     return Container(
       height: 80.0,
       alignment: Alignment.center,
-      child: const Column(
+      child: Column(
         children: [
-          Divider(),
+          const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "4.0",
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 32.0),
+                ((2.0 * shop.rate_good_count * 1.0 * shop.rate_neutral_count +
+                            -3.0 * shop.rate_negative_count) /
+                        (shop.rate_good_count +
+                            shop.rate_negative_count +
+                            shop.rate_neutral_count) *
+                        5)
+                    .floorToDouble()
+                    .toString(),
+                style: const TextStyle(
+                    fontWeight: FontWeight.w700, fontSize: 32.0),
               ),
-              VerticalDivider(
+              const VerticalDivider(
                 width: 30.0,
                 thickness: 0,
               ),
               Column(
                 children: [
                   Text(
-                    "20",
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    shop.rate_negative_count.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
-                  Text(
+                  const Text(
                     "negative",
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),
                   )
                 ],
               ),
-              VerticalDivider(
+              const VerticalDivider(
                 width: 30.0,
                 thickness: 0.3,
               ),
               Column(
                 children: [
-                  Text("20", style: TextStyle(fontWeight: FontWeight.w600)),
-                  Text(
+                  Text(shop.rate_neutral_count.toString(),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  const Text(
                     "neutral",
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),
                   )
                 ],
               ),
-              VerticalDivider(
+              const VerticalDivider(
                 width: 30.0,
                 thickness: 0.3,
               ),
               Column(
                 children: [
-                  Text("20", style: TextStyle(fontWeight: FontWeight.w600)),
-                  Text(
+                  Text(shop.rate_good_count.toString(),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  const Text(
                     "good",
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200),
                   )
@@ -130,7 +140,7 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
               )
             ],
           ),
-          Divider()
+          const Divider()
         ],
       ),
     );

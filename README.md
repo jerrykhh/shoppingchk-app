@@ -2,15 +2,20 @@
 
 A new Flutter project.
 
-## Getting Started
+## Descrpitoin
 
-This project is a starting point for a Flutter application.
+Nowadays, there are many unscrupulous company in the Street market but if we not go frequently we do not know. Therefore, I develop this app hope can let all know these shit companies. In phase 1, just have some basic function contain make a comment, list shops, and request a shop. Moreover, price displayed in different shop for each product can be a phase 2.
 
-A few resources to get you started if this is your first Flutter project:
+Demo Video (Cantonese) [Click here](https://youtu.be/MaGxmq-MHVs)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Phase 1
+> current
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Flutter + AWS Amplify
+
+![app home page](./resource/home.png)
+![shop detail page](./resource/shop_detail.png)
+![make commet page](./resource/make_comment.png)
+![commet page](./resource/comment_detail.png)
+![make shop page](./resource/make_shop.png)
+![profile page](./resource/profile.png)

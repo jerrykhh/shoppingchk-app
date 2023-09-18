@@ -51,5 +51,8 @@ type Shop @model @auth(rules: [{allow: public}]) {
   geohash: String
   Comments: [Comment] @hasMany(indexName: "byShop", fields: ["id"])
   category: StoreCategoryType
+  rate_good_count: Int!
+  rate_neutral_count: Int!
+  rate_negative_count: Int!
 }
  

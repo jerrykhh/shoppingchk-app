@@ -33,7 +33,7 @@ export 'StoreCategoryType.dart';
 
 class ModelProvider implements amplify_core.ModelProviderInterface {
   @override
-  String version = "e963e6344bd47973eedd94aa66173cb1";
+  String version = "56ad21210087eaef5b6be420a9f364a5";
   @override
   List<amplify_core.ModelSchema> modelSchemas = [Comment.schema, Request.schema, Shop.schema];
   @override
